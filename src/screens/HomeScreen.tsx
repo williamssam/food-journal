@@ -26,7 +26,9 @@ const HomeScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: '#fff',
+  },
   header: {
     padding: 20,
     justifyContent: 'center',

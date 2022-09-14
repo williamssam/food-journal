@@ -46,6 +46,7 @@ const TabNavigator = () => {
         component={SettingsNavigator}
         options={{
           tabBarIcon: () => <Setting />,
+          tabBarLabel: 'Settings',
         }}
       />
     </Tab.Navigator>
