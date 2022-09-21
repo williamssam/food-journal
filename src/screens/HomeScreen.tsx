@@ -1,18 +1,14 @@
 import * as React from 'react'
-import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native'
+import {StatusBar, StyleSheet, Text, View} from 'react-native'
+import {SafeAreaView} from 'react-native-safe-area-context'
 import Foods from '../components/Foods'
 import Form from '../components/Form'
-import useGetAllMeals from '../hooks/useGetAllMeals'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
 const HomeScreen = () => {
-  const {loading, meals} = useGetAllMeals()
-  // const {data, isLoading} = useGetOneFoodQuery('Wt1jNiXbmvjKpVjQtMZe')
-  // console.log('loading', isLoading)
-  console.log('data', meals)
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={colors.main} />
       <View style={styles.header}>
         <View>
@@ -26,7 +22,7 @@ const HomeScreen = () => {
       </View>
 
       <Foods />
-    </ScrollView>
+    </SafeAreaView>
   )
 }
 

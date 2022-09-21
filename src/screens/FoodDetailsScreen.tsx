@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native'
+import {useNavigation, useRoute} from '@react-navigation/native'
 import * as React from 'react'
 import {
   Image,
@@ -12,13 +12,18 @@ import ArrowLeft from '../assets/icons/ArrowLeft'
 import ConfirmationModal from '../components/ConfirmationModal'
 import Dialog from '../components/Dialog'
 import OtherDetails from '../components/OtherDetails'
-import {FoodNavigationProps} from '../models/navigators'
+import {FoodNavigationProps, RootStackParamList} from '../models/navigators'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
 const FoodDetailsScreen = () => {
+  const route = useRoute<RootStackParamList<'Details'>['route']>()
   const navigation = useNavigation<FoodNavigationProps>()
   const [toggleModal, setToggleModal] = React.useState(false)
+  // const {isLoading, data} = useGetOneMealQuery('')
+
+  // console.log('params', id)
+
   return (
     <>
       <ScrollView

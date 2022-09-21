@@ -1,66 +1,59 @@
 import {useNavigation} from '@react-navigation/native'
 import * as React from 'react'
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native'
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
+import useGetAllMeals from '../hooks/useGetAllMeals'
 import {FoodNavigationProps} from '../models/navigators'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
 const Foods = () => {
   const navigation = useNavigation<FoodNavigationProps>()
+  const {loading, meals} = useGetAllMeals()
+  console.log('data', meals)
+
+  const renderItem = ({item}: any) => (
+    <Pressable
+      style={styles.food}
+      onPress={() => navigation.navigate('Details', {mealId: item.id})}>
+      <Image source={{uri: item.image}} style={styles.image} />
+      <View>
+        <Text style={styles.foodName}>{item.name}</Text>
+        <Text style={styles.date}>25 June 2022</Text>
+      </View>
+
+      <Text style={styles.foodType}>{item.type}</Text>
+    </Pressable>
+  )
+
+  if (loading) {
+    return <ActivityIndicator />
+  }
+
   return (
-    <View style={styles.foods}>
-      <Pressable
-        style={styles.food}
-        onPress={() => navigation.navigate('Details')}>
-        <Image
-          source={require('../assets/images/food.jpg')}
-          style={styles.image}
-        />
-        <View>
-          <Text style={styles.foodName}>Egg Salad with Vegetables</Text>
-          <Text style={styles.date}>25 June 2022</Text>
-        </View>
-
-        <Text style={styles.foodType}>Breakfast</Text>
-      </Pressable>
-
-      <Pressable
-        style={styles.food}
-        onPress={() => navigation.navigate('Details')}>
-        <Image
-          source={require('../assets/images/food.jpg')}
-          style={styles.image}
-        />
-        <View>
-          <Text style={styles.foodName}>Egg Salad with Vegetables</Text>
-          <Text style={styles.date}>25 June 2022</Text>
-        </View>
-
-        <Text style={styles.foodType}>Breakfast</Text>
-      </Pressable>
-
-      <Pressable
-        style={styles.food}
-        onPress={() => navigation.navigate('Details')}>
-        <Image
-          source={require('../assets/images/food.jpg')}
-          style={styles.image}
-        />
-        <View>
-          <Text style={styles.foodName}>Egg Salad with Vegetables</Text>
-          <Text style={styles.date}>25 June 2022</Text>
-        </View>
-
-        <Text style={styles.foodType}>Breakfast</Text>
-      </Pressable>
-    </View>
+    <>
+      <FlatList
+        data={meals}
+        keyExtractor={item => item.id}
+        renderItem={renderItem}
+        contentContainerStyle={styles.foods}
+        showsVerticalScrollIndicator={false}
+      />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
   foods: {
     marginTop: 5,
-    marginBottom: 20,
+    paddingBottom: 200,
     marginHorizontal: 15,
   },
   food: {

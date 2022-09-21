@@ -9,11 +9,11 @@ import {store} from './src/store/store'
 const App = () => {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Provider store={store}>
+      <Provider store={store}>
+        <NavigationContainer>
           <AppNavigator />
-        </Provider>
-      </NavigationContainer>
+        </NavigationContainer>
+      </Provider>
     </SafeAreaProvider>
   )
 }

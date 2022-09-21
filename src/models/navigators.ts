@@ -8,7 +8,9 @@ export type RootStackParamList = {
   Login: undefined
   ForgetPassword: undefined
   ResetPassword: undefined
-  Details: undefined
+  Details: {
+    mealId: string
+  }
   FilterByType: undefined
 }
 

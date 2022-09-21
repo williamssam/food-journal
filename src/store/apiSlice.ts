@@ -8,26 +8,26 @@ export const foodsApi = createApi({
   reducerPath: 'foodsApi',
   baseQuery: fakeBaseQuery(),
   endpoints: builder => ({
-    // conver to onSnapshot
-    getAllMeals: builder.query<PostsResponse, void>({
-      queryFn() {
-        try {
-          let foods: PostsResponse = []
-          firestore()
-            .collection('foods')
-            .onSnapshot(documentSnapshot => {
-              let meals: PostsResponse = []
-              documentSnapshot?.forEach(food =>
-                meals.push({...(food.data() as Food), id: food.id}),
-              )
-              console.log('User data: ', meals)
-            })
-          return {data: foods}
-        } catch (error) {
-          return {error}
-        }
-      },
-    }),
+    // // conver to onSnapshot
+    // getAllMeals: builder.query<PostsResponse, void>({
+    //   queryFn() {
+    //     try {
+    //       let foods: PostsResponse = []
+    //       firestore()
+    //         .collection('foods')
+    //         .onSnapshot(documentSnapshot => {
+    //           let meals: PostsResponse = []
+    //           documentSnapshot?.forEach(food =>
+    //             meals.push({...(food.data() as Food), id: food.id}),
+    //           )
+    //           console.log('User data: ', meals)
+    //         })
+    //       return {data: foods}
+    //     } catch (error) {
+    //       return {error}
+    //     }
+    //   },
+    // }),
     getOneMeal: builder.query<Food, void>({
       async queryFn(arg: string) {
         try {
@@ -84,7 +84,6 @@ export const foodsApi = createApi({
 
 export const {
   useAddMealQuery,
-  useGetAllMealsQuery,
   useGetOneMealQuery,
   useRemoveMealQuery,
   useUpdateMealQuery,
