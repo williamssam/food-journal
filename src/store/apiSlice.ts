@@ -31,7 +31,7 @@ export const foodsApi = createApi({
     getOneMeal: builder.query<Food, void>({
       async queryFn(arg: string) {
         try {
-          const userFood = await firestore().collection('foods').doc(arg).get()
+          const userFood = await firestore().collection('meals').doc(arg).get()
 
           let data = userFood.data()
           return {data}
@@ -45,7 +45,7 @@ export const foodsApi = createApi({
         try {
           // let food: Food = []
           const userFood = await firestore()
-            .collection('foods')
+            .collection('meals')
             .doc(arg)
             .delete()
           return {data: userFood}
@@ -59,7 +59,7 @@ export const foodsApi = createApi({
         try {
           // let food: Food = []
           const userFood = await firestore()
-            .collection('foods')
+            .collection('meals')
             .doc(arg)
             .update({data})
           return {data: userFood}
@@ -72,7 +72,7 @@ export const foodsApi = createApi({
       async queryFn(arg: string) {
         try {
           // let food: Food = []
-          const userFood = await firestore().collection('foods').add({arg})
+          const userFood = await firestore().collection('meals').add({arg})
           return {data: userFood}
         } catch (error) {
           return {error}

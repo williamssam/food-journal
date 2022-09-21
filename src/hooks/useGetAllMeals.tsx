@@ -10,7 +10,7 @@ const useGetAllMeals = () => {
 
   React.useEffect(() => {
     const subscriber = firestore()
-      .collection('foods')
+      .collection('meals')
       .onSnapshot(querySnapshot => {
         const meals: PostsResponse = []
 

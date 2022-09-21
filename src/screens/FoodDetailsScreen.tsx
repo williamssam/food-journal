@@ -1,6 +1,7 @@
 import {useNavigation, useRoute} from '@react-navigation/native'
 import * as React from 'react'
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   ScrollView,
@@ -12,17 +13,23 @@ import ArrowLeft from '../assets/icons/ArrowLeft'
 import ConfirmationModal from '../components/ConfirmationModal'
 import Dialog from '../components/Dialog'
 import OtherDetails from '../components/OtherDetails'
-import {FoodNavigationProps, RootStackParamList} from '../models/navigators'
+import {FoodNavigationProps} from '../models/navigators'
+import {useGetOneMealQuery} from '../store/apiSlice'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
 const FoodDetailsScreen = () => {
-  const route = useRoute<RootStackParamList<'Details'>['route']>()
+  const route = useRoute()
+  const id = route?.params?.mealId
   const navigation = useNavigation<FoodNavigationProps>()
   const [toggleModal, setToggleModal] = React.useState(false)
-  // const {isLoading, data} = useGetOneMealQuery('')
+  const {isLoading, data} = useGetOneMealQuery(id)
 
-  // console.log('params', id)
+  console.log('one meal', data)
+
+  if (isLoading) {
+    return <ActivityIndicator color="red" />
+  }
 
   return (
     <>
@@ -35,10 +42,7 @@ const FoodDetailsScreen = () => {
 
         <View>
           <View>
-            <Image
-              source={require('../assets/images/food.jpg')}
-              style={styles.image}
-            />
+            <Image source={{uri: data?.image}} style={styles.image} />
             <View
               style={[styles.slideIndicator, {transform: [{translateX: -50}]}]}>
               <View style={styles.next} />
@@ -67,22 +71,23 @@ const FoodDetailsScreen = () => {
                 <Pressable
                   style={({pressed}) => [{opacity: pressed ? 0.9 : 1}]}
                   onPress={() => navigation.navigate('FilterByType')}>
-                  <Text style={styles.foodType}>Breakfast</Text>
+                  <Text style={styles.foodType}>{data?.type}</Text>
                 </Pressable>
-                <Text style={styles.tag}>#tacos</Text>
-                <Text style={styles.tag}>#tacos</Text>
-                <Text style={styles.tag}>#tacos</Text>
+                {data?.tags?.length > 0 && (
+                  <View style={styles.tagContainer}>
+                    {data?.tags?.map(tag => (
+                      <Text style={styles.tag} key={tag}>
+                        #{tag}
+                      </Text>
+                    ))}
+                  </View>
+                )}
               </View>
-              <Text style={styles.foodName}>Egg Salad with Vegetables</Text>
+              <Text style={styles.foodName}>{data?.name}</Text>
             </View>
-            <Text style={styles.foodDescriptiion}>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Harum
-              eos architecto iusto necessitatibus, animi odio, repellat atque
-              quo ad consectetur modi laborum impedit et pariatur reiciendis
-              enim. Ducimus, dicta necessitatibus.
-            </Text>
+            <Text style={styles.foodDescriptiion}>{data?.description}</Text>
 
-            <OtherDetails />
+            <OtherDetails data={data} />
 
             <View style={styles.btnContainer}>
               <Pressable
@@ -157,6 +162,10 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontSize: 16,
     paddingTop: 10,
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   tags: {
     flexDirection: 'row',

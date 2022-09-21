@@ -1,7 +1,9 @@
+import {ImageSourcePropType} from 'react-native'
+
 export type Food = {
   id: string
   name: string
-  image: Images | string
+  image: ImageSourcePropType | string
   type: 'Breakfast' | 'Lunch' | 'Dinner' | 'Light'
   tags?: string[]
   date: Date

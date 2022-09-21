@@ -1,4 +1,5 @@
 import {useNavigation} from '@react-navigation/native'
+import {format} from 'date-fns'
 import * as React from 'react'
 import {
   ActivityIndicator,
@@ -26,7 +27,9 @@ const Foods = () => {
       <Image source={{uri: item.image}} style={styles.image} />
       <View>
         <Text style={styles.foodName}>{item.name}</Text>
-        <Text style={styles.date}>25 June 2022</Text>
+        <Text style={styles.date}>
+          {format(item?.date?.seconds * 1000, 'dd MMMM yyyy')}
+        </Text>
       </View>
 
       <Text style={styles.foodType}>{item.type}</Text>

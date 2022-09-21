@@ -1,20 +1,23 @@
-import * as React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import Date from '../assets/icons/Date';
-import Location from '../assets/icons/Location';
-import Restaurant from '../assets/icons/Restaurant';
-import {fonts} from '../theme/fonts';
+import {format} from 'date-fns'
+import * as React from 'react'
+import {StyleSheet, Text, View} from 'react-native'
+import Date from '../assets/icons/Date'
+import Location from '../assets/icons/Location'
+import Restaurant from '../assets/icons/Restaurant'
+import {fonts} from '../theme/fonts'
 
-const OtherDetails = () => {
+const OtherDetails = ({data}: any) => {
   return (
     <View style={styles.otherDetails}>
       <View style={styles.otherDetail}>
         <Date />
-        <Text style={styles.otherDetailText}>25 June 2022</Text>
+        <Text style={styles.otherDetailText}>
+          {format(data?.date?.seconds * 1000, 'dd MMMM yyyy')}
+        </Text>
       </View>
       <View style={styles.otherDetail}>
         <Location />
-        <Text style={styles.otherDetailText}>Lagos, Nigeria</Text>
+        <Text style={styles.otherDetailText}>{data?.location}</Text>
       </View>
       {/* <View style={styles.otherDetail}>
         <Restaurant />
@@ -22,11 +25,11 @@ const OtherDetails = () => {
       </View> */}
       <View style={styles.otherDetail}>
         <Restaurant />
-        <Text style={styles.otherDetailText}>Resturant</Text>
+        <Text style={styles.otherDetailText}>{data?.restaurant}</Text>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   otherDetails: {
@@ -43,5 +46,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginLeft: 10,
   },
-});
-export default OtherDetails;
+})
+export default OtherDetails
