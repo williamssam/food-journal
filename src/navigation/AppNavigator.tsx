@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import * as React from 'react'
 import {RootStackParamList} from '../models/navigators'
+import AddMealScreen from '../screens/AddMealScreen'
 import FilterByTypeScreen from '../screens/FilterByTypeScreen'
 import FoodDetailsScreen from '../screens/FoodDetailsScreen'
 import ForgetPasswordScreen from '../screens/ForgetPasswordScreen'
@@ -21,6 +22,7 @@ const AppNavigator = () => {
       <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
       <Stack.Screen name="Details" component={FoodDetailsScreen} />
       <Stack.Screen name="FilterByType" component={FilterByTypeScreen} />
+      <Stack.Screen name="AddMeal" component={AddMealScreen} />
     </Stack.Navigator>
   )
 }

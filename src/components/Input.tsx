@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react'
+import {Control, FieldValues, useController} from 'react-hook-form'
 import {
   Pressable,
   StyleSheet,
@@ -14,13 +15,32 @@ import {fonts} from '../theme/fonts'
 
 interface InputType extends TextInputProps {
   title: string
-  placeholder: string
+  placeholder?: string
   type?: string
+  name: string
+  control: Control<FieldValues, any>
 }
 
-const Input = ({title, placeholder, type, ...props}: InputType) => {
+const Input = ({
+  title,
+  placeholder,
+  type,
+  name,
+  control,
+  defaultValue = '',
+  ...props
+}: InputType) => {
   const [focusColor, setFocusColor] = React.useState(false)
   const [togglePassword, setTogglePassword] = React.useState(false)
+  const {
+    field: {value},
+  } = useController({
+    name,
+    control,
+    defaultValue,
+  })
+
+  console.log('name', value)
 
   return (
     <View
@@ -32,12 +52,13 @@ const Input = ({title, placeholder, type, ...props}: InputType) => {
       ]}>
       <Text style={styles.inputLabel}>{title}</Text>
       <TextInput
+        value={value}
         style={styles.input}
         placeholder={placeholder}
         autoCapitalize="none"
         onFocus={() => setFocusColor(true)}
         onBlur={() => setFocusColor(false)}
-        secureTextEntry={togglePassword ? false : true}
+        // secureTextEntry={togglePassword ? false : true}
         {...props}
       />
 

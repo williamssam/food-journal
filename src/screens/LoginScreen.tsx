@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Link} from '@react-navigation/native'
 import * as React from 'react'
+import {useForm} from 'react-hook-form'
 import {
   KeyboardAvoidingView,
   Pressable,
@@ -14,6 +15,8 @@ import {fonts} from '../theme/fonts'
 import {globalStyle} from '../theme/globalStyle'
 
 const LoginScreen = () => {
+  const {register, handleSubmit, control} = useForm()
+
   return (
     // <KeyboardAvoidingView
     <KeyboardAvoidingView behavior="padding" style={globalStyle.container}>
@@ -46,6 +49,8 @@ const LoginScreen = () => {
           placeholder="Enter your Email Address"
           keyboardType="email-address"
           autoCapitalize="none"
+          name="email_address"
+          control={control}
         />
         <Input
           title="Password"
@@ -53,6 +58,8 @@ const LoginScreen = () => {
           type="password"
           autoComplete="password"
           textContentType="password"
+          name="password"
+          control={control}
         />
         <Link
           style={[

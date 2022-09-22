@@ -11,12 +11,13 @@ export type RootStackParamList = {
   Details: {
     mealId: string
   }
+  AddMeal: undefined
   FilterByType: undefined
 }
 
 export type TabStackParamList = {
   Home: NavigatorScreenParams<RootStackParamList>
-  AddFood: undefined
+  AddMeal: undefined
   SettingNavigator: BottomTabNavigationProp<SettingStackParamList>
 }
 

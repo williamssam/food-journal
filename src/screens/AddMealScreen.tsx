@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {useForm} from 'react-hook-form'
 import {Pressable, StyleSheet, Text, View} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import Upload from '../assets/icons/Upload'
@@ -9,11 +10,23 @@ import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 import {globalStyle} from '../theme/globalStyle'
 
-const AddFoodScreen = () => {
+const AddMealScreen = () => {
   const [toggleModal, setToggleModal] = React.useState(false)
   const [pickerResponse, setPickerResponse] = React.useState<string | null>(
     null,
   )
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: {},
+  } = useForm()
+
+  const onAddFood = data => {
+    console.log('form-data', data)
+  }
+
   return (
     <>
       <KeyboardAwareScrollView
@@ -44,18 +57,37 @@ const AddFoodScreen = () => {
         </View>
 
         <View style={styles.formContainer}>
-          <Input title="Name" placeholder="Enter name of the food" />
-          <Input title="Type" placeholder="Breavage, Fruits etc" />
-          <Input title="Meal Time" placeholder="Breakfast, Lunch, Dinner etc" />
+          <Input
+            title="Name"
+            placeholder="Enter name of the food"
+            name="meal_name"
+            control={control}
+          />
+          <Input
+            title="Type"
+            placeholder="Breavage, Fruits etc"
+            name="meal_type"
+            control={control}
+          />
+          <Input
+            title="Meal Time"
+            placeholder="Breakfast, Lunch, Dinner etc"
+            name="meal_time"
+            control={control}
+          />
+          <Input title="Image URL" name="meal_image" control={control} />
           <Input
             title="Description"
             placeholder="Add description to the photo (100Char limit)"
             multiline
+            name="meal_description"
+            control={control}
           />
 
           {/* <TextInput style={[styles.input, styles.textArea]} placeholder="" /> */}
 
           <Pressable
+            onPress={handleSubmit(onAddFood)}
             android_ripple={{
               color: colors.neutral,
             }}
@@ -152,4 +184,4 @@ const styles = StyleSheet.create({
     color: colors.neutral,
   },
 })
-export default AddFoodScreen
+export default AddMealScreen

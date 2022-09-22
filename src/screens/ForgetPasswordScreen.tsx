@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {useForm} from 'react-hook-form'
 import {Pressable, StyleSheet, Text, View} from 'react-native'
 import Input from '../components/Input'
 import {colors} from '../theme/colors'
@@ -6,6 +7,8 @@ import {fonts} from '../theme/fonts'
 import {globalStyle} from '../theme/globalStyle'
 
 const ForgetPasswordScreen = () => {
+  const {register, handleSubmit, control} = useForm()
+
   return (
     <View style={globalStyle.container}>
       {/* <Pressable onPress={() => navigation.go}>
@@ -24,6 +27,8 @@ const ForgetPasswordScreen = () => {
         placeholder="Enter your Email Address"
         keyboardType="email-address"
         autoCapitalize="none"
+        name="email_address"
+        control={control}
       />
 
       <Pressable

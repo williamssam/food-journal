@@ -4,7 +4,7 @@ import AddImage from '../assets/icons/AddImage'
 import Home from '../assets/icons/Home'
 import Setting from '../assets/icons/Setting'
 import {TabStackParamList} from '../models/navigators'
-import AddFoodScreen from '../screens/AddFoodScreen'
+import AddMealScreen from '../screens/AddMealScreen'
 import HomeScreen from '../screens/HomeScreen'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
@@ -34,8 +34,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="AddFood"
-        component={AddFoodScreen}
+        name="AddMeal"
+        component={AddMealScreen}
         options={{
           tabBarIcon: () => <AddImage />,
           tabBarLabel: 'Add Food',

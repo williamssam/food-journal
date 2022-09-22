@@ -1,5 +1,6 @@
 import {Link} from '@react-navigation/native'
 import * as React from 'react'
+import {useForm} from 'react-hook-form'
 import {Pressable, StyleSheet, Text, View} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import Input from '../components/Input'
@@ -8,6 +9,8 @@ import {fonts} from '../theme/fonts'
 import {globalStyle} from '../theme/globalStyle'
 
 const RegisterScreen = () => {
+  const {register, handleSubmit, control} = useForm()
+
   return (
     <KeyboardAwareScrollView
       showsVerticalScrollIndicator={false}
@@ -32,12 +35,19 @@ const RegisterScreen = () => {
       </View>
 
       <View style={styles.form}>
-        <Input title="Full Name" placeholder="Enter your Full Name" />
+        <Input
+          title="Full Name"
+          placeholder="Enter your Full Name"
+          name="full_name"
+          control={control}
+        />
         <Input
           title="Email Address"
           placeholder="Enter your Email Address"
           keyboardType="email-address"
           autoCapitalize="none"
+          name="email_address"
+          control={control}
         />
         <Input
           title="Password"
@@ -46,6 +56,18 @@ const RegisterScreen = () => {
           autoComplete="password"
           textContentType="password"
           type="password"
+          name="password"
+          control={control}
+        />
+        <Input
+          title="Confrim Password"
+          placeholder="Enter your Password again"
+          secureTextEntry
+          autoComplete="password"
+          textContentType="password"
+          type="password"
+          name="confirm_password"
+          control={control}
         />
         <Pressable
           android_ripple={{

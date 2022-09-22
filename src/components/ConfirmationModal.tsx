@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react'
-import {Pressable, StyleSheet, Text, View} from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import Trash from '../assets/icons/Trash'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
@@ -9,14 +15,17 @@ interface ConfirmationModalType {
   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>
   title: string
   subtitle?: string
+  loading?: boolean
+  onPress?: () => void
 }
 
 const ConfirmationModal = ({
   setToggleModal,
   title,
   subtitle,
+  onPress,
+  loading,
 }: ConfirmationModalType) => {
-  // const [modal, setModal] = React.useState(false)
   return (
     <View style={styles.modalContainer}>
       <View style={{alignSelf: 'center'}}>
@@ -25,8 +34,12 @@ const ConfirmationModal = ({
       <Text style={styles.modalTitle}>{title}</Text>
       {subtitle && <Text style={styles.modalSubtitle}>{subtitle}</Text>}
       <View style={styles.btnContainer}>
-        <Pressable style={[styles.btn, styles.deleteBtn]}>
-          <Text style={styles.btnText}>Yeah! Delete</Text>
+        <Pressable style={[styles.btn, styles.deleteBtn]} onPress={onPress}>
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={styles.btnText}>Yeah! Delete</Text>
+          )}
         </Pressable>
         <Pressable
           style={[styles.btn, styles.cancelBtn]}
