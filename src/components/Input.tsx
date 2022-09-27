@@ -1,4 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
+import {Eye, EyeOff} from 'assets/icons/Eye'
+import Info from 'assets/icons/Info'
 import * as React from 'react'
 import {Control, FieldValues, useController} from 'react-hook-form'
 import {
@@ -9,10 +11,8 @@ import {
   TextInputProps,
   View,
 } from 'react-native'
-import {Eye, EyeOff} from '../assets/icons/Eye'
-import Info from '../assets/icons/Info'
-import {colors} from '../theme/colors'
-import {fonts} from '../theme/fonts'
+import {colors} from 'theme/colors'
+import {fonts} from 'theme/fonts'
 
 interface InputType extends TextInputProps {
   title: string

@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore'
+import {Food} from 'models/food'
 import * as React from 'react'
-import {Food} from '../models/food'
 
 type PostsResponse = Food[]
 

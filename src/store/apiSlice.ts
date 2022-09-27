@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore'
 import {createApi, fakeBaseQuery} from '@reduxjs/toolkit/query/react'
-import {Food} from '../models/food'
+import {Food} from 'models/food'
 
 type PostsResponse = Food[]
 

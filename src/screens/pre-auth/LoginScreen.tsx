@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Link} from '@react-navigation/native'
+import Input from 'components/Input'
 import * as React from 'react'
 import {useForm} from 'react-hook-form'
 import {
@@ -9,10 +10,9 @@ import {
   Text,
   View,
 } from 'react-native'
-import Input from '../../components/Input'
-import {colors} from '../../theme/colors'
-import {fonts} from '../../theme/fonts'
-import {globalStyle} from '../../theme/globalStyle'
+import {colors} from 'theme/colors'
+import {fonts} from 'theme/fonts'
+import {globalStyle} from 'theme/globalStyle'
 
 const LoginScreen = () => {
   const {register, handleSubmit, control} = useForm()

@@ -1,10 +1,10 @@
+import Date from 'assets/icons/Date'
+import Location from 'assets/icons/Location'
+import Restaurant from 'assets/icons/Restaurant'
 import {format} from 'date-fns'
 import * as React from 'react'
 import {StyleSheet, Text, View} from 'react-native'
-import Date from '../assets/icons/Date'
-import Location from '../assets/icons/Location'
-import Restaurant from '../assets/icons/Restaurant'
-import {fonts} from '../theme/fonts'
+import {fonts} from 'theme/fonts'
 
 const OtherDetails = ({data}: any) => {
   return (
