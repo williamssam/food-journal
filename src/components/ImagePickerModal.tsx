@@ -3,11 +3,14 @@ import {Pressable, StyleSheet, Text, View} from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 import Camera from '../assets/icons/Camera'
 import Image from '../assets/icons/Image'
+import {PickerResponseType} from '../models/screenTypes'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
 interface ImagePickerType {
-  setPickerResponse: React.Dispatch<React.SetStateAction<string | null>>
+  setPickerResponse: React.Dispatch<
+    React.SetStateAction<PickerResponseType | null>
+  >
   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -21,8 +24,14 @@ const ImagePickerModal = ({
       mediaType: 'photo',
     })
       .then(resp => {
+        console.log('resp', resp)
         setToggleModal(false)
-        setPickerResponse(resp.path)
+        setPickerResponse({
+          uri: resp.path,
+          width: resp.width,
+          height: resp.height,
+          mime: resp.mime,
+        })
       })
       .catch(err => {
         setToggleModal(false)
@@ -37,7 +46,12 @@ const ImagePickerModal = ({
     })
       .then(resp => {
         setToggleModal(false)
-        setPickerResponse(resp.path)
+        setPickerResponse({
+          uri: resp.path,
+          width: resp.width,
+          height: resp.height,
+          mime: resp.mime,
+        })
       })
       .catch(err => {
         setToggleModal(false)

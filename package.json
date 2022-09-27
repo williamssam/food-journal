@@ -24,7 +24,7 @@
     "date-fns": "^2.29.3",
     "react": "18.1.0",
     "react-hook-form": "^7.35.0",
-    "react-native": "0.70.0",
+    "react-native": "0.70.1",
     "react-native-extra-dimensions-android": "^1.2.5",
     "react-native-image-crop-picker": "^0.38.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",

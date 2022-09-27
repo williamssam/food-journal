@@ -1,29 +1,33 @@
 import * as React from 'react'
 import {useForm} from 'react-hook-form'
-import {Pressable, StyleSheet, Text, View} from 'react-native'
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import Upload from '../assets/icons/Upload'
 import Dialog from '../components/Dialog'
 import ImagePickerModal from '../components/ImagePickerModal'
 import Input from '../components/Input'
+import {PickerResponseType} from '../models/screenTypes'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 import {globalStyle} from '../theme/globalStyle'
 
 const AddMealScreen = () => {
   const [toggleModal, setToggleModal] = React.useState(false)
-  const [pickerResponse, setPickerResponse] = React.useState<string | null>(
-    null,
-  )
+  const [pickerResponse, setPickerResponse] =
+    React.useState<PickerResponseType | null>(null)
+
+  console.log('image picker response', pickerResponse)
 
   const {
-    register,
     handleSubmit,
     control,
     formState: {},
   } = useForm()
 
   const onAddFood = data => {
+    // add image to storage in firebae
+
+    // attach image download url to firestreo
     console.log('form-data', data)
   }
 
@@ -42,11 +46,24 @@ const AddMealScreen = () => {
               styles.uploadContainer,
             ]}
             onPress={() => setToggleModal(true)}>
-            <Upload />
-            <Text style={styles.uploadText}>Upload picture</Text>
-            <Text style={styles.uploadTextSubtitle}>
-              Photos must be less than 2mb in size
-            </Text>
+            {pickerResponse ? (
+              <Image
+                style={{
+                  width: '100%',
+                  height: 200,
+                  resizeMode: 'contain',
+                }}
+                source={{uri: pickerResponse?.uri}}
+              />
+            ) : (
+              <>
+                <Upload />
+                <Text style={styles.uploadText}>Upload picture</Text>
+                <Text style={styles.uploadTextSubtitle}>
+                  Photos must be less than 2mb in size
+                </Text>
+              </>
+            )}
           </Pressable>
 
           <Pressable
@@ -57,6 +74,10 @@ const AddMealScreen = () => {
         </View>
 
         <View style={styles.formContainer}>
+          {/* {pickerResponse && (
+
+          )} */}
+
           <Input
             title="Name"
             placeholder="Enter name of the food"
@@ -119,6 +140,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   uploadText: {
     color: colors.neutral,

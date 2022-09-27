@@ -19,6 +19,7 @@ interface InputType extends TextInputProps {
   type?: string
   name: string
   control: Control<FieldValues, any>
+  error?: string
 }
 
 const Input = ({
@@ -27,49 +28,55 @@ const Input = ({
   type,
   name,
   control,
-  defaultValue = '',
+  error,
+  // defaultValue = '',
   ...props
 }: InputType) => {
   const [focusColor, setFocusColor] = React.useState(false)
   const [togglePassword, setTogglePassword] = React.useState(false)
   const {
-    field: {value},
+    field: {value, onChange},
   } = useController({
     name,
     control,
-    defaultValue,
+    defaultValue: '',
   })
 
-  console.log('name', value)
-
   return (
-    <View
-      style={[
-        styles.formControl,
-        {
-          borderColor: focusColor ? colors.blue : '#ced4da',
-        },
-      ]}>
-      <Text style={styles.inputLabel}>{title}</Text>
-      <TextInput
-        value={value}
-        style={styles.input}
-        placeholder={placeholder}
-        autoCapitalize="none"
-        onFocus={() => setFocusColor(true)}
-        onBlur={() => setFocusColor(false)}
-        // secureTextEntry={togglePassword ? false : true}
-        {...props}
-      />
+    <>
+      <View
+        style={[
+          styles.formControl,
+          {
+            borderColor: focusColor ? colors.blue : '#ced4da',
+            borderWidth: focusColor ? 2.5 : 1.5,
+          },
+        ]}>
+        <Text style={styles.inputLabel}>{title}</Text>
+        <TextInput
+          value={value}
+          style={styles.input}
+          onChangeText={onChange}
+          placeholder={placeholder}
+          autoCapitalize="none"
+          onFocus={() => setFocusColor(true)}
+          //TODO: show active class if value is not empty
+          onBlur={() => setFocusColor(false)}
+          // secureTextEntry={togglePassword ? false : true}
+          {...props}
+        />
+        {/* {error && } */}
 
-      {type === 'password' && (
-        <Pressable
-          style={styles.toggleBtn}
-          onPress={() => setTogglePassword(!togglePassword)}>
-          {togglePassword ? <EyeOff /> : <Eye />}
-        </Pressable>
-      )}
-    </View>
+        {type === 'password' && (
+          <Pressable
+            style={styles.toggleBtn}
+            onPress={() => setTogglePassword(!togglePassword)}>
+            {togglePassword ? <EyeOff /> : <Eye />}
+          </Pressable>
+        )}
+      </View>
+      {error && <Text style={styles.errorText}>{error}</Text>}
+    </>
   )
 }
 
@@ -80,7 +87,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 7,
-    borderWidth: 1.5,
   },
   input: {
     paddingVertical: 2,
@@ -98,6 +104,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 15,
     top: '50%',
+  },
+  errorText: {
+    fontFamily: fonts.regular,
+    fontSize: 13,
+    color: '#e02020',
+    paddingTop: 5,
+    paddingBottom: 10,
   },
 })
 export default Input
