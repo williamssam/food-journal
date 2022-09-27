@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, {Circle, Path, SvgProps} from 'react-native-svg'
 import {colors} from '../../theme/colors'
 
-const SvgComponent = (props: SvgProps) => (
+const Search = (props: SvgProps) => (
   <Svg
     viewBox="0 0 24 24"
     width={24}
@@ -25,4 +25,4 @@ const SvgComponent = (props: SvgProps) => (
   </Svg>
 )
 
-export default SvgComponent
+export default Search

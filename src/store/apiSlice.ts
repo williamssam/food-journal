@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore'
 import {createApi, fakeBaseQuery} from '@reduxjs/toolkit/query/react'
-import {Food} from 'models/food'
+import {Food} from '../models/food'
 
 type PostsResponse = Food[]
 
@@ -69,10 +69,10 @@ export const foodsApi = createApi({
       },
     }),
     addMeal: builder.mutation<Food, void>({
-      async queryFn(arg: Food) {
+      async queryFn(arg: any) {
         try {
           // let food: Food = []
-          const userFood = await firestore().collection('meals').add({arg})
+          const userFood = await firestore().collection('meals').add(arg)
           return {data: userFood}
         } catch (error) {
           return {error}

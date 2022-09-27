@@ -1,11 +1,11 @@
-import Camera from 'assets/icons/Camera'
-import Image from 'assets/icons/Image'
-import {PickerResponseType} from 'models/screenTypes'
 import React from 'react'
 import {Pressable, StyleSheet, Text, View} from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
-import {colors} from 'theme/colors'
-import {fonts} from 'theme/fonts'
+import Camera from '../assets/icons/Camera'
+import Image from '../assets/icons/Image'
+import {PickerResponseType} from '../models/screenTypes'
+import {colors} from '../theme/colors'
+import {fonts} from '../theme/fonts'
 
 interface ImagePickerType {
   setPickerResponse: React.Dispatch<

@@ -1,60 +1,87 @@
-import {zodResolver} from '@hookform/resolvers/zod'
-import Upload from 'assets/icons/Upload'
-import Dialog from 'components/Dialog'
-import ImagePickerModal from 'components/ImagePickerModal'
-import Input from 'components/Input'
-import {PickerResponseType} from 'models/screenTypes'
+import {yupResolver} from '@hookform/resolvers/yup'
+import {useNavigation} from '@react-navigation/native'
 import * as React from 'react'
 import {useForm} from 'react-hook-form'
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {useDispatch} from 'react-redux'
-import {colors} from 'theme/colors'
-import {fonts} from 'theme/fonts'
-import {globalStyle} from 'theme/globalStyle'
-import * as zod from 'zod'
+import * as yup from 'yup'
+import Upload from '../../assets/icons/Upload'
+import Dialog from '../../components/Dialog'
+import ImagePickerModal from '../../components/ImagePickerModal'
+import Input from '../../components/Input'
+import {FoodNavigationProps} from '../../models/navigators'
+import {PickerResponseType} from '../../models/screenTypes'
+import {useAddMealMutation} from '../../store/apiSlice'
+import {colors} from '../../theme/colors'
+import {fonts} from '../../theme/fonts'
+import {globalStyle} from '../../theme/globalStyle'
 
-const schema = zod.object({
-  name: zod.string({required_error: 'Meal name is required'}),
-  type: zod.string({required_error: 'Meal name is required'}),
-  time: zod.string({required_error: 'Meal name is required'}),
-  image: zod.string({required_error: 'Meal name is required'}),
-  description: zod.string({required_error: 'Meal name is required'}),
-  location: zod.string({required_error: 'Meal name is required'}),
-  restaurant: zod.string({required_error: 'Meal name is required'}),
-})
+const schema = yup
+  .object({
+    name: yup.string().required('Meal name is required'),
+    type: yup.string().required('Meal type is required'),
+    time: yup.string().required('Meal time is required'),
+    image: yup.string().required('Meal Image is required'),
+    description: yup.string().required('Meal description is required'),
+    location: yup.string().required('Location is required'),
+    restaurant: yup.string().required('Restaurant is required'),
+  })
+  .required()
+
+type FormFields = {
+  name: string
+  type: string
+  time: string
+  image: string
+  description: string
+  location: string
+  restaurant: string
+}
 
 const AddMealScreen = () => {
+  const navigation = useNavigation<FoodNavigationProps>()
   const [toggleModal, setToggleModal] = React.useState(false)
   const dispatch = useDispatch()
   const [pickerResponse, setPickerResponse] =
     React.useState<PickerResponseType | null>(null)
+  const [addMeal, {isLoading: loading, isSuccess}] = useAddMealMutation()
 
   console.log('image picker response', pickerResponse)
 
-  const {
-    handleSubmit,
-    control,
-    formState: {},
-  } = useForm({
-    resolver: zodResolver(schema),
+  const {handleSubmit, control} = useForm({
+    resolver: yupResolver(schema),
   })
 
   const onAddFood = (data: any) => {
-    const {meal_description, meal_type, meal_name, meal_image, meal_time} = data
+    const {description, type, name, image, meal_time, location, restaurant} =
+      data
+    console.log('form-data', data)
 
     const meal = {
-      description: meal_description,
-      image: meal_image,
-      restaurant: 'Opeyemi Foods',
-      location: 'Abuja, Nigeria',
-      name: meal_name,
-      type: meal_type,
+      description,
+      image,
+      restaurant,
+      location,
+      name,
+      type,
+      date: Date.now(),
     }
-    // add image to storage in firebase
+    dispatch(addMeal(meal))
+    if (isSuccess) {
+      navigation.navigate('Tab')
+    }
+
+    // if successful, route to homepage
 
     // attach image download url to firestreo
-    console.log('form-data', data)
   }
 
   return (
@@ -100,10 +127,6 @@ const AddMealScreen = () => {
         </View>
 
         <View style={styles.formContainer}>
-          {/* {pickerResponse && (
-
-          )} */}
-
           <Input
             title="Name"
             placeholder="Enter name of the food"
@@ -116,12 +139,12 @@ const AddMealScreen = () => {
             name="type"
             control={control}
           />
-          <Input
+          {/* <Input
             title="Meal Time"
             placeholder="Breakfast, Lunch, Dinner etc"
-            name="time"
+            name="meal_time"
             control={control}
-          />
+          /> */}
           <Input title="Image URL" name="image" control={control} />
           <View>
             <Input title="Location" name="location" control={control} />
@@ -145,7 +168,11 @@ const AddMealScreen = () => {
               color: colors.neutral,
             }}
             style={styles.submitBtn}>
-            <Text style={styles.submitBtnText}>Add food</Text>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.submitBtnText}>Add food</Text>
+            )}
           </Pressable>
         </View>
       </KeyboardAwareScrollView>

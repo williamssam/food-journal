@@ -1,9 +1,4 @@
 import {useNavigation, useRoute} from '@react-navigation/native'
-import ArrowLeft from 'assets/icons/ArrowLeft'
-import ConfirmationModal from 'components/ConfirmationModal'
-import Dialog from 'components/Dialog'
-import OtherDetails from 'components/OtherDetails'
-import {FoodNavigationProps} from 'models/navigators'
 import * as React from 'react'
 import {
   ActivityIndicator,
@@ -14,9 +9,14 @@ import {
   Text,
   View,
 } from 'react-native'
-import {useGetOneMealQuery, useRemoveMealMutation} from 'store/apiSlice'
-import {colors} from 'theme/colors'
-import {fonts} from 'theme/fonts'
+import ArrowLeft from '../../assets/icons/ArrowLeft'
+import ConfirmationModal from '../../components/ConfirmationModal'
+import Dialog from '../../components/Dialog'
+import OtherDetails from '../../components/OtherDetails'
+import {FoodNavigationProps} from '../../models/navigators'
+import {useGetOneMealQuery, useRemoveMealMutation} from '../../store/apiSlice'
+import {colors} from '../../theme/colors'
+import {fonts} from '../../theme/fonts'
 
 const FoodDetailsScreen = () => {
   const route = useRoute()

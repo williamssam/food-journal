@@ -1,5 +1,4 @@
 /* eslint-disable react-native/no-inline-styles */
-import Trash from 'assets/icons/Trash'
 import * as React from 'react'
 import {
   ActivityIndicator,
@@ -8,8 +7,9 @@ import {
   Text,
   View,
 } from 'react-native'
-import {colors} from 'theme/colors'
-import {fonts} from 'theme/fonts'
+import Trash from '../assets/icons/Trash'
+import {colors} from '../theme/colors'
+import {fonts} from '../theme/fonts'
 
 interface ConfirmationModalType {
   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>

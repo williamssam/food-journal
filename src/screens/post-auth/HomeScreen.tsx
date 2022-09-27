@@ -1,10 +1,10 @@
-import Foods from 'components/Foods'
-import Form from 'components/Form'
 import * as React from 'react'
 import {StatusBar, StyleSheet, Text, View} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
-import {colors} from 'theme/colors'
-import {fonts} from 'theme/fonts'
+import Foods from '../../components/Foods'
+import Form from '../../components/Form'
+import {colors} from '../../theme/colors'
+import {fonts} from '../../theme/fonts'
 
 const HomeScreen = () => {
   return (

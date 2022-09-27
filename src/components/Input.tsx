@@ -1,8 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Eye, EyeOff} from 'assets/icons/Eye'
-import Info from 'assets/icons/Info'
 import * as React from 'react'
-import {Control, FieldValues, useController} from 'react-hook-form'
+import {Control, FieldError, FieldValues, useController} from 'react-hook-form'
 import {
   Pressable,
   StyleSheet,
@@ -11,8 +9,10 @@ import {
   TextInputProps,
   View,
 } from 'react-native'
-import {colors} from 'theme/colors'
-import {fonts} from 'theme/fonts'
+import {Eye, EyeOff} from '../assets/icons/Eye'
+import Info from '../assets/icons/Info'
+import {colors} from '../theme/colors'
+import {fonts} from '../theme/fonts'
 
 interface InputType extends TextInputProps {
   title: string
@@ -20,7 +20,7 @@ interface InputType extends TextInputProps {
   type?: string
   name: string
   control: Control<FieldValues, any>
-  error?: string
+  error?: FieldError
 }
 
 const Input = ({
@@ -29,14 +29,13 @@ const Input = ({
   type,
   name,
   control,
-  error,
-  // defaultValue = '',
   ...props
 }: InputType) => {
   const [focusColor, setFocusColor] = React.useState(false)
   const [togglePassword, setTogglePassword] = React.useState(false)
   const {
     field: {value, onChange},
+    fieldState: {error},
   } = useController({
     name,
     control,
@@ -49,8 +48,12 @@ const Input = ({
         style={[
           styles.formControl,
           {
-            borderColor: focusColor ? colors.blue : '#ced4da',
-            borderWidth: focusColor ? 2.5 : 1.5,
+            borderColor: value
+              ? colors.blue
+              : error?.message
+              ? colors.red
+              : '#ced4da',
+            borderWidth: value || focusColor ? 2.6 : 1.5,
           },
         ]}>
         <Text style={styles.inputLabel}>{title}</Text>
@@ -77,10 +80,10 @@ const Input = ({
           </Pressable>
         )}
       </View>
-      {error && (
+      {error?.type && (
         <View style={styles.errorContainer}>
           <Info />
-          <Text style={styles.errorText}>{error}</Text>
+          <Text style={styles.errorText}>{error.message}</Text>
         </View>
       )}
     </>

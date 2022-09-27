@@ -6,17 +6,6 @@
 
     /* Completeness */
     "skipLibCheck": true ,                                /* Skip type checking all .d.ts files. */
-    "baseUrl": ".",
-    "paths": {
-      "components/*": ["src/components/*"],
-      "screens/*": ["src/screens/*"],
-      "models/*": ["src/models/*"],
-      "hooks/*": ["src/hooks/*"],
-      "navigation/*": ["src/navigation/*"],
-      "assets/*": ["src/assets/*"],
-      "theme/*": ["src/theme/*"],
-      "utils/*": ["src/utils/*"],
-      "store/*": ["src/store/*"],
-    }
+
   }
 }

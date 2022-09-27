@@ -1,7 +1,5 @@
 import {useNavigation} from '@react-navigation/native'
 import {format} from 'date-fns'
-import useGetAllMeals from 'hooks/useGetAllMeals'
-import {FoodNavigationProps} from 'models/navigators'
 import * as React from 'react'
 import {
   ActivityIndicator,
@@ -12,8 +10,10 @@ import {
   Text,
   View,
 } from 'react-native'
-import {colors} from 'theme/colors'
-import {fonts} from 'theme/fonts'
+import useGetAllMeals from '../hooks/useGetAllMeals'
+import {FoodNavigationProps} from '../models/navigators'
+import {colors} from '../theme/colors'
+import {fonts} from '../theme/fonts'
 
 const Foods = () => {
   const navigation = useNavigation<FoodNavigationProps>()

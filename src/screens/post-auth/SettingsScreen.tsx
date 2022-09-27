@@ -1,10 +1,10 @@
-import ConfirmationModal from 'components/ConfirmationModal'
-import Dialog from 'components/Dialog'
 import * as React from 'react'
 import {Pressable, StyleSheet, Text, View} from 'react-native'
-import {colors} from 'theme/colors'
-import {fonts} from 'theme/fonts'
-import {globalStyle} from 'theme/globalStyle'
+import ConfirmationModal from '../../components/ConfirmationModal'
+import Dialog from '../../components/Dialog'
+import {colors} from '../../theme/colors'
+import {fonts} from '../../theme/fonts'
+import {globalStyle} from '../../theme/globalStyle'
 
 const SettingsScreen = () => {
   // const {navigation} = useNavigation();

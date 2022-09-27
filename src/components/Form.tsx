@@ -1,9 +1,9 @@
-import Filter from 'assets/icons/Filter'
-import Search from 'assets/icons/Search'
 import * as React from 'react'
 import {Pressable, StyleSheet, TextInput, View} from 'react-native'
-import {colors} from 'theme/colors'
-import {fonts} from 'theme/fonts'
+import Filter from '../assets/icons/Filter'
+import Search from '../assets/icons/Search'
+import {colors} from '../theme/colors'
+import {fonts} from '../theme/fonts'
 
 const Form = () => {
   return (
