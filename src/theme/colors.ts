@@ -6,4 +6,5 @@ export const colors = {
   amber: '#F59E0B',
   text: '#666A6F',
   neutral: '#fafafa',
-};
+  red: '#e02020',
+}

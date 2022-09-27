@@ -20,7 +20,7 @@ const ImagePickerModal = ({
 }: ImagePickerType) => {
   const onLaunchCamera = () => {
     ImagePicker.openCamera({
-      cropping: true,
+      cropping: false,
       mediaType: 'photo',
     })
       .then(resp => {
@@ -41,7 +41,7 @@ const ImagePickerModal = ({
 
   const onLaunchLibrary = () => {
     ImagePicker.openPicker({
-      cropping: true,
+      cropping: false,
       mediaType: 'photo',
     })
       .then(resp => {

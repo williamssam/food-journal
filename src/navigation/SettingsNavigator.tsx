@@ -1,8 +1,8 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {SettingStackParamList} from 'models/navigators'
 import * as React from 'react'
-import {SettingStackParamList} from '../models/navigators'
-import PasswordResetScreen from '../screens/PasswordResetScreen'
-import SettingsScreen from '../screens/SettingsScreen'
+import SettingsScreen from 'screens/post-auth/SettingsScreen'
+import PasswordResetScreen from 'screens/pre-auth/PasswordResetScreen'
 
 const Stack = createNativeStackNavigator<SettingStackParamList>()
 const SettingsNavigator = () => {

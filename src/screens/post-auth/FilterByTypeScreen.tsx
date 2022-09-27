@@ -1,10 +1,10 @@
 import {useNavigation} from '@react-navigation/native'
+import ArrowLeft from 'assets/icons/ArrowLeft'
+import Foods from 'components/Foods'
 import * as React from 'react'
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native'
-import ArrowLeft from '../assets/icons/ArrowLeft'
-import Foods from '../components/Foods'
-import {colors} from '../theme/colors'
-import {fonts} from '../theme/fonts'
+import {colors} from 'theme/colors'
+import {fonts} from 'theme/fonts'
 
 const FilterByTypeScreen = () => {
   const navigation = useNavigation()

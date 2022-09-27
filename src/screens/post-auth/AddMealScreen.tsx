@@ -1,18 +1,32 @@
+import {zodResolver} from '@hookform/resolvers/zod'
+import Upload from 'assets/icons/Upload'
+import Dialog from 'components/Dialog'
+import ImagePickerModal from 'components/ImagePickerModal'
+import Input from 'components/Input'
+import {PickerResponseType} from 'models/screenTypes'
 import * as React from 'react'
 import {useForm} from 'react-hook-form'
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
-import Upload from '../assets/icons/Upload'
-import Dialog from '../components/Dialog'
-import ImagePickerModal from '../components/ImagePickerModal'
-import Input from '../components/Input'
-import {PickerResponseType} from '../models/screenTypes'
-import {colors} from '../theme/colors'
-import {fonts} from '../theme/fonts'
-import {globalStyle} from '../theme/globalStyle'
+import {useDispatch} from 'react-redux'
+import {colors} from 'theme/colors'
+import {fonts} from 'theme/fonts'
+import {globalStyle} from 'theme/globalStyle'
+import * as zod from 'zod'
+
+const schema = zod.object({
+  name: zod.string({required_error: 'Meal name is required'}),
+  type: zod.string({required_error: 'Meal name is required'}),
+  time: zod.string({required_error: 'Meal name is required'}),
+  image: zod.string({required_error: 'Meal name is required'}),
+  description: zod.string({required_error: 'Meal name is required'}),
+  location: zod.string({required_error: 'Meal name is required'}),
+  restaurant: zod.string({required_error: 'Meal name is required'}),
+})
 
 const AddMealScreen = () => {
   const [toggleModal, setToggleModal] = React.useState(false)
+  const dispatch = useDispatch()
   const [pickerResponse, setPickerResponse] =
     React.useState<PickerResponseType | null>(null)
 
@@ -22,10 +36,22 @@ const AddMealScreen = () => {
     handleSubmit,
     control,
     formState: {},
-  } = useForm()
+  } = useForm({
+    resolver: zodResolver(schema),
+  })
 
-  const onAddFood = data => {
-    // add image to storage in firebae
+  const onAddFood = (data: any) => {
+    const {meal_description, meal_type, meal_name, meal_image, meal_time} = data
+
+    const meal = {
+      description: meal_description,
+      image: meal_image,
+      restaurant: 'Opeyemi Foods',
+      location: 'Abuja, Nigeria',
+      name: meal_name,
+      type: meal_type,
+    }
+    // add image to storage in firebase
 
     // attach image download url to firestreo
     console.log('form-data', data)
@@ -81,27 +107,33 @@ const AddMealScreen = () => {
           <Input
             title="Name"
             placeholder="Enter name of the food"
-            name="meal_name"
+            name="name"
             control={control}
           />
           <Input
             title="Type"
             placeholder="Breavage, Fruits etc"
-            name="meal_type"
+            name="type"
             control={control}
           />
           <Input
             title="Meal Time"
             placeholder="Breakfast, Lunch, Dinner etc"
-            name="meal_time"
+            name="time"
             control={control}
           />
-          <Input title="Image URL" name="meal_image" control={control} />
+          <Input title="Image URL" name="image" control={control} />
+          <View>
+            <Input title="Location" name="location" control={control} />
+            <Text>Auto choose my location</Text>
+          </View>
+          <Input title="Restaurant" name="restaurant" control={control} />
+
           <Input
             title="Description"
             placeholder="Add description to the photo (100Char limit)"
             multiline
-            name="meal_description"
+            name="description"
             control={control}
           />
 

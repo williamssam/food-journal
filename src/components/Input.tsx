@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native'
 import {Eye, EyeOff} from '../assets/icons/Eye'
+import Info from '../assets/icons/Info'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
@@ -65,7 +66,8 @@ const Input = ({
           // secureTextEntry={togglePassword ? false : true}
           {...props}
         />
-        {/* {error && } */}
+        {/* {error && (
+        )} */}
 
         {type === 'password' && (
           <Pressable
@@ -75,7 +77,12 @@ const Input = ({
           </Pressable>
         )}
       </View>
-      {error && <Text style={styles.errorText}>{error}</Text>}
+      {error && (
+        <View style={styles.errorContainer}>
+          <Info />
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+      )}
     </>
   )
 }
@@ -105,12 +112,16 @@ const styles = StyleSheet.create({
     right: 15,
     top: '50%',
   },
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
   errorText: {
     fontFamily: fonts.regular,
     fontSize: 13,
-    color: '#e02020',
-    paddingTop: 5,
-    paddingBottom: 10,
+    color: colors.red,
+    marginLeft: 4,
   },
 })
 export default Input

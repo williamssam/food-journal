@@ -1,10 +1,9 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
-import { colors } from "../../theme/colors";
+import * as React from 'react'
+import Svg, {Path, SvgProps} from 'react-native-svg'
+import {colors} from '../../theme/colors'
 
-const Upload = (props) => (
+const Upload = (props: SvgProps) => (
   <Svg
-    xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     width={36}
     height={36}
@@ -12,8 +11,7 @@ const Upload = (props) => (
     stroke={colors.neutral}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}
-  >
+    {...props}>
     <Path
       d="M3.68 15h17.26A3.49 3.49 0 0 0 19 9 7 7 0 0 0 5.24 7.18 4.49 4.49 0 0 0 3.68 15Z"
       fill="#fff"

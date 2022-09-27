@@ -1,31 +1,23 @@
-/* eslint-disable react-native/no-inline-styles */
 import {Link} from '@react-navigation/native'
 import * as React from 'react'
 import {useForm} from 'react-hook-form'
-import {
-  KeyboardAvoidingView,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-import Input from '../components/Input'
-import {colors} from '../theme/colors'
-import {fonts} from '../theme/fonts'
-import {globalStyle} from '../theme/globalStyle'
+import {Pressable, StyleSheet, Text, View} from 'react-native'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import Input from '../../components/Input'
+import {colors} from '../../theme/colors'
+import {fonts} from '../../theme/fonts'
+import {globalStyle} from '../../theme/globalStyle'
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const {register, handleSubmit, control} = useForm()
 
   return (
-    // <KeyboardAvoidingView
-    <KeyboardAvoidingView behavior="padding" style={globalStyle.container}>
+    <KeyboardAwareScrollView
+      showsVerticalScrollIndicator={false}
+      style={globalStyle.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Welcome Back 👋</Text>
-        <Text style={styles.subtitle}>
-          We are happy to see you again 😍. To use your account, you should log
-          in first.
-        </Text>
+        <Text style={styles.title}>Create New Account 🔥</Text>
+        <Text style={styles.subtitle}>Please fill in the form to continue</Text>
       </View>
 
       <Pressable
@@ -33,8 +25,7 @@ const LoginScreen = () => {
           color: colors.neutral,
         }}
         style={[globalStyle.btn, styles.googleSignupBtn]}>
-        {/* <Google /> */}
-        <Text style={globalStyle.btnText}>Login with Google</Text>
+        <Text style={globalStyle.btnText}>Signup with Google</Text>
       </Pressable>
 
       <View style={styles.dividerContainer}>
@@ -44,6 +35,12 @@ const LoginScreen = () => {
       </View>
 
       <View style={styles.form}>
+        <Input
+          title="Full Name"
+          placeholder="Enter your Full Name"
+          name="full_name"
+          control={control}
+        />
         <Input
           title="Email Address"
           placeholder="Enter your Email Address"
@@ -55,43 +52,42 @@ const LoginScreen = () => {
         <Input
           title="Password"
           placeholder="Enter your Password"
-          type="password"
+          secureTextEntry
           autoComplete="password"
           textContentType="password"
+          type="password"
           name="password"
           control={control}
         />
-        <Link
-          style={[
-            styles.loginLink,
-            {textAlign: 'right', paddingTop: 8, fontFamily: fonts.regular},
-          ]}
-          to={{screen: 'ForgetPassword'}}>
-          Forgot Password?
-        </Link>
+        <Input
+          title="Confrim Password"
+          placeholder="Enter your Password again"
+          secureTextEntry
+          autoComplete="password"
+          textContentType="password"
+          type="password"
+          name="confirm_password"
+          control={control}
+        />
         <Pressable
           android_ripple={{
             color: colors.neutral,
           }}
           style={globalStyle.btn}>
-          <Text style={globalStyle.btnText}>Login</Text>
+          <Text style={globalStyle.btnText}>Register</Text>
         </Pressable>
         <Text style={styles.footerText}>
-          Don't have an account?{' '}
-          <Link to={{screen: 'Register'}} style={styles.loginLink}>
-            Sign up
+          Joined us before?{' '}
+          <Link to={{screen: 'Login'}} style={styles.loginLink}>
+            Login
           </Link>
         </Text>
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  registerContainer: {
-    flex: 1,
-    paddingHorizontal: 15,
-  },
   header: {
     paddingTop: 25,
   },
@@ -142,4 +138,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 })
-export default LoginScreen
+export default RegisterScreen

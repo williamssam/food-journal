@@ -68,8 +68,8 @@ export const foodsApi = createApi({
         }
       },
     }),
-    addMeal: builder.query<Food, void>({
-      async queryFn(arg: string) {
+    addMeal: builder.mutation<Food, void>({
+      async queryFn(arg: Food) {
         try {
           // let food: Food = []
           const userFood = await firestore().collection('meals').add({arg})
@@ -83,7 +83,7 @@ export const foodsApi = createApi({
 })
 
 export const {
-  useAddMealQuery,
+  useAddMealMutation,
   useGetOneMealQuery,
   useRemoveMealMutation,
   useUpdateMealMutation,

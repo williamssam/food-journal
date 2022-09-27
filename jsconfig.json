@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": [
+    {
+      "components/*": ["src/components/*"],
+      "screens/*": ["src/screens/*"],
+      "models/*": ["src/models/*"],
+      "hooks/*": ["src/hooks/*"],
+      "navigation/*": ["src/navigation/*"],
+      "assets/*": ["src/assets/*"],
+      "theme/*": ["src/theme/*"],
+      "store/*": ["src/store/*"],
+      "utils/*": ["src/utils/*"]
+    }
+  ]
+}

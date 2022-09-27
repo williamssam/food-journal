@@ -1,4 +1,9 @@
-import { useNavigation, useRoute } from '@react-navigation/native'
+import {useNavigation, useRoute} from '@react-navigation/native'
+import ArrowLeft from 'assets/icons/ArrowLeft'
+import ConfirmationModal from 'components/ConfirmationModal'
+import Dialog from 'components/Dialog'
+import OtherDetails from 'components/OtherDetails'
+import {FoodNavigationProps} from 'models/navigators'
 import * as React from 'react'
 import {
   ActivityIndicator,
@@ -7,16 +12,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native'
-import ArrowLeft from '../assets/icons/ArrowLeft'
-import ConfirmationModal from '../components/ConfirmationModal'
-import Dialog from '../components/Dialog'
-import OtherDetails from '../components/OtherDetails'
-import { FoodNavigationProps } from '../models/navigators'
-import { useGetOneMealQuery, useRemoveMealMutation } from '../store/apiSlice'
-import { colors } from '../theme/colors'
-import { fonts } from '../theme/fonts'
+import {useGetOneMealQuery, useRemoveMealMutation} from 'store/apiSlice'
+import {colors} from 'theme/colors'
+import {fonts} from 'theme/fonts'
 
 const FoodDetailsScreen = () => {
   const route = useRoute()
@@ -111,8 +111,7 @@ const FoodDetailsScreen = () => {
                   color: colors.neutral,
                 }}
                 style={[styles.btn, styles.editBtn]}
-                onPress={() => navigation.navigate('AddMeal')}
-              >
+                onPress={() => navigation.navigate('AddMeal')}>
                 <Text style={styles.btnText}>Update</Text>
               </Pressable>
             </View>
