@@ -24,7 +24,14 @@ const Foods = () => {
     <Pressable
       style={styles.food}
       onPress={() => navigation.navigate('Details', {mealId: item.id})}>
-      <Image source={{uri: item.image}} style={styles.image} />
+      <Image
+        source={{
+          uri:
+            item.image ??
+            'https://cdn.dribbble.com/users/143350/screenshots/14052412/media/27ab3785352e64f357bc1608bae74361.png?compress=1&resize=400x300',
+        }}
+        style={styles.image}
+      />
       <View>
         <Text style={styles.foodName}>{item.name}</Text>
         <Text style={styles.date}>

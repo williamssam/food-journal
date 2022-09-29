@@ -11,7 +11,6 @@ import {
   View,
 } from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
-import {useDispatch} from 'react-redux'
 import * as yup from 'yup'
 import Upload from '../../assets/icons/Upload'
 import Dialog from '../../components/Dialog'
@@ -24,17 +23,14 @@ import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
 import {globalStyle} from '../../theme/globalStyle'
 
-const schema = yup
-  .object({
-    name: yup.string().required('Meal name is required'),
-    type: yup.string().required('Meal type is required'),
-    time: yup.string().required('Meal time is required'),
-    image: yup.string().required('Meal Image is required'),
-    description: yup.string().required('Meal description is required'),
-    location: yup.string().required('Location is required'),
-    restaurant: yup.string().required('Restaurant is required'),
-  })
-  .required()
+const schema = yup.object({
+  name: yup.string().required('Meal name is required'),
+  type: yup.string().required('Meal type is required'),
+  image: yup.string().required('Meal Image is required'),
+  description: yup.string().required('Meal description is required'),
+  location: yup.string().required('Location is required'),
+  restaurant: yup.string().required('Restaurant is required'),
+})
 
 type FormFields = {
   name: string
@@ -49,22 +45,17 @@ type FormFields = {
 const AddMealScreen = () => {
   const navigation = useNavigation<FoodNavigationProps>()
   const [toggleModal, setToggleModal] = React.useState(false)
-  const dispatch = useDispatch()
   const [pickerResponse, setPickerResponse] =
     React.useState<PickerResponseType | null>(null)
   const [addMeal, {isLoading: loading, isSuccess}] = useAddMealMutation()
 
-  console.log('image picker response', pickerResponse)
-
-  const {handleSubmit, control} = useForm({
+  const {control, handleSubmit} = useForm({
     resolver: yupResolver(schema),
   })
 
-  const onAddFood = (data: any) => {
+  const onAddFood = async (data: any) => {
     const {description, type, name, image, meal_time, location, restaurant} =
       data
-    console.log('form-data', data)
-
     const meal = {
       description,
       image,
@@ -72,16 +63,15 @@ const AddMealScreen = () => {
       location,
       name,
       type,
-      date: Date.now(),
     }
-    dispatch(addMeal(meal))
-    if (isSuccess) {
-      navigation.navigate('Tab')
+    try {
+      await addMeal(meal)
+      if (isSuccess) {
+        navigation.navigate('Tab')
+      }
+    } catch (error) {
+      console.log(error)
     }
-
-    // if successful, route to homepage
-
-    // attach image download url to firestreo
   }
 
   return (
@@ -135,13 +125,13 @@ const AddMealScreen = () => {
           />
           <Input
             title="Type"
-            placeholder="Breavage, Fruits etc"
+            placeholder="Breakfast, Lunch, Dinner etc"
             name="type"
             control={control}
           />
           {/* <Input
             title="Meal Time"
-            placeholder="Breakfast, Lunch, Dinner etc"
+            placeholder=""
             name="meal_time"
             control={control}
           /> */}
@@ -159,7 +149,6 @@ const AddMealScreen = () => {
             name="description"
             control={control}
           />
-
           {/* <TextInput style={[styles.input, styles.textArea]} placeholder="" /> */}
 
           <Pressable
