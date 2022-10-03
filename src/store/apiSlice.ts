@@ -40,7 +40,7 @@ export const foodsApi = createApi({
         }
       },
     }),
-    removeMeal: builder.mutation<Food, void>({
+    removeMeal: builder.mutation({
       async queryFn(arg: string) {
         try {
           // let food: Food = []
@@ -54,7 +54,7 @@ export const foodsApi = createApi({
         }
       },
     }),
-    updateMeal: builder.mutation<Food, void>({
+    updateMeal: builder.mutation({
       async queryFn(arg: string, data: string) {
         try {
           // let food: Food = []
@@ -68,7 +68,7 @@ export const foodsApi = createApi({
         }
       },
     }),
-    addMeal: builder.mutation<Food, void>({
+    addMeal: builder.mutation({
       async queryFn(arg: any) {
         try {
           // let food: Food = []

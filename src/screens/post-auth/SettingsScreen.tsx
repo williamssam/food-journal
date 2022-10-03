@@ -1,14 +1,13 @@
 import * as React from 'react'
 import {Pressable, StyleSheet, Text, View} from 'react-native'
-import ConfirmationModal from '../../components/ConfirmationModal'
-import Dialog from '../../components/Dialog'
+import BottomTab from '../../components/BottomTab'
 import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
 import {globalStyle} from '../../theme/globalStyle'
 
 const SettingsScreen = () => {
   // const {navigation} = useNavigation();
-  const [toggleModal, setToggleModal] = React.useState(false)
+  // const [toggleModal, setToggleModal] = React.useState(false)
 
   return (
     <>
@@ -41,16 +40,18 @@ const SettingsScreen = () => {
               <Text>Reset Password</Text>
             </Pressable>
 
-            <Pressable
+            {/* <Pressable
               style={styles.deleteBtn}
               onPress={() => setToggleModal(true)}>
               <Text style={styles.deleteBtnText}>Delete My Account</Text>
-            </Pressable>
+            </Pressable> */}
           </View>
         </View>
       </View>
 
-      <Dialog
+      <BottomTab />
+
+      {/* <Dialog
         toggleModal={toggleModal}
         setToggleModal={setToggleModal}
         children={
@@ -60,7 +61,7 @@ const SettingsScreen = () => {
             setToggleModal={setToggleModal}
           />
         }
-      />
+      /> */}
     </>
   )
 }

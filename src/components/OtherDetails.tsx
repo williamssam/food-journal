@@ -9,12 +9,14 @@ import {fonts} from '../theme/fonts'
 const OtherDetails = ({data}: any) => {
   return (
     <View style={styles.otherDetails}>
-      <View style={styles.otherDetail}>
-        <Date />
-        <Text style={styles.otherDetailText}>
-          {format(data?.date?.seconds * 1000, 'dd MMMM yyyy')}
-        </Text>
-      </View>
+      {data?.date && (
+        <View style={styles.otherDetail}>
+          <Date />
+          <Text style={styles.otherDetailText}>
+            {format(data?.date?.seconds * 1000, 'dd MMMM yyyy')}
+          </Text>
+        </View>
+      )}
       <View style={styles.otherDetail}>
         <Location />
         <Text style={styles.otherDetailText}>{data?.location}</Text>

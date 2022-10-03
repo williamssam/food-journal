@@ -5,9 +5,11 @@ import {useForm} from 'react-hook-form'
 import {
   ActivityIndicator,
   Image,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
+  ToastAndroid,
   View,
 } from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -23,10 +25,14 @@ import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
 import {globalStyle} from '../../theme/globalStyle'
 
+import firestore from '@react-native-firebase/firestore'
+import storage from '@react-native-firebase/storage'
+import BottomTab from '../../components/BottomTab'
+import {Food} from '../../models/food'
+
 const schema = yup.object({
   name: yup.string().required('Meal name is required'),
   type: yup.string().required('Meal type is required'),
-  image: yup.string().required('Meal Image is required'),
   description: yup.string().required('Meal description is required'),
   location: yup.string().required('Location is required'),
   restaurant: yup.string().required('Restaurant is required'),
@@ -45,34 +51,80 @@ type FormFields = {
 const AddMealScreen = () => {
   const navigation = useNavigation<FoodNavigationProps>()
   const [toggleModal, setToggleModal] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
   const [pickerResponse, setPickerResponse] =
     React.useState<PickerResponseType | null>(null)
-  const [addMeal, {isLoading: loading, isSuccess}] = useAddMealMutation()
+  const [addMeal, {isLoading, status, isError, data}] = useAddMealMutation()
 
-  const {control, handleSubmit} = useForm({
+  const {control, handleSubmit, reset} = useForm({
     resolver: yupResolver(schema),
   })
 
+  // console.log()
+
+  console.table(status, isError, data)
+  console.log(typeof status)
+
+  /*
+    steps to upload image
+    - let user select image from the libary or their camera
+    - when user click 'add meal', first upload image to firebase storage then pick the download url and add that to the database
+    - then save the data into firebase
+  */
+
   const onAddFood = async (data: any) => {
-    const {description, type, name, image, meal_time, location, restaurant} =
-      data
-    const meal = {
-      description,
-      image,
-      restaurant,
-      location,
-      name,
-      type,
+    const {description, type, name, location, restaurant} = data
+    if (!pickerResponse) {
+      ToastAndroid.show(
+        'Please upload meal image to continue',
+        ToastAndroid.SHORT,
+      )
+      return
     }
+
+    // remove all the file path name prefix and get just the file name with the extension
+    const filename = pickerResponse?.uri.substring(
+      pickerResponse?.uri.lastIndexOf('/') + 1,
+    )
+    const uploadUri =
+      Platform.OS === 'ios'
+        ? pickerResponse?.uri.replace('file://', '')
+        : pickerResponse?.uri
+    setLoading(true)
     try {
-      await addMeal(meal)
-      if (isSuccess) {
-        navigation.navigate('Tab')
+      const task = await storage().ref(filename)
+      // used non null assertion: just to tell ts that we know "uploadUri" can never be undefined || null
+      const uploadFile = await task.putFile(uploadUri!)
+      const downloadUrl = await task.getDownloadURL()
+      const meal: Food = {
+        description,
+        image: downloadUrl,
+        restaurant,
+        location,
+        name,
+        type,
+        date: firestore.Timestamp.now(),
       }
+      if (uploadFile) {
+        await addMeal(meal)
+      }
+      // if (isSuccess) {
+      //
+      // }
+      setLoading(false)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
+
+  React.useEffect(() => {
+    if (status === 'fulfilled') {
+      ToastAndroid.show('Meal added successfully! 🎉🚀', ToastAndroid.SHORT)
+      reset()
+      setPickerResponse(null)
+      navigation.push('Tab')
+    }
+  }, [status])
 
   return (
     <>
@@ -123,19 +175,13 @@ const AddMealScreen = () => {
             name="name"
             control={control}
           />
+          {/* TODO: change to select */}
           <Input
             title="Type"
             placeholder="Breakfast, Lunch, Dinner etc"
             name="type"
             control={control}
           />
-          {/* <Input
-            title="Meal Time"
-            placeholder=""
-            name="meal_time"
-            control={control}
-          /> */}
-          <Input title="Image URL" name="image" control={control} />
           <View>
             <Input title="Location" name="location" control={control} />
             <Text>Auto choose my location</Text>
@@ -157,7 +203,7 @@ const AddMealScreen = () => {
               color: colors.neutral,
             }}
             style={styles.submitBtn}>
-            {loading ? (
+            {isLoading || loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
               <Text style={styles.submitBtnText}>Add food</Text>
@@ -177,6 +223,8 @@ const AddMealScreen = () => {
           />
         }
       />
+
+      <BottomTab />
     </>
   )
 }
@@ -201,27 +249,6 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginTop: 15,
-  },
-  formControl: {
-    marginTop: 20,
-  },
-  input: {
-    backgroundColor: '#ddd',
-    paddingHorizontal: 15,
-    height: 60,
-    marginTop: 8,
-    fontFamily: fonts.medium,
-    fontSize: 16,
-    borderRadius: 7,
-  },
-  inputLabel: {
-    fontSize: 18,
-    fontFamily: fonts.medium,
-    color: colors.main,
-  },
-  textArea: {
-    height: 150,
-    // alignSelf: 'flex-start'
   },
   submitBtn: {
     marginTop: 20,
@@ -254,4 +281,5 @@ const styles = StyleSheet.create({
     color: colors.neutral,
   },
 })
+
 export default AddMealScreen

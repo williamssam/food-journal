@@ -20,6 +20,7 @@ const Foods = () => {
   const {loading, meals} = useGetAllMeals()
   console.log('data', meals)
 
+  // TODO: solve this type issue
   const renderItem = ({item}: any) => (
     <Pressable
       style={styles.food}
@@ -34,9 +35,11 @@ const Foods = () => {
       />
       <View>
         <Text style={styles.foodName}>{item.name}</Text>
-        <Text style={styles.date}>
-          {format(item?.date?.seconds * 1000, 'dd MMMM yyyy')}
-        </Text>
+        {item?.date && (
+          <Text style={styles.date}>
+            {format(item?.date?.seconds * 1000, 'dd MMMM yyyy')}
+          </Text>
+        )}
       </View>
 
       <Text style={styles.foodType}>{item.type}</Text>
@@ -63,7 +66,7 @@ const Foods = () => {
 const styles = StyleSheet.create({
   foods: {
     marginTop: 5,
-    paddingBottom: 200,
+    paddingBottom: 30,
     marginHorizontal: 15,
   },
   food: {

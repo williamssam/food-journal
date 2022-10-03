@@ -36,7 +36,7 @@ const FoodDetailsScreen = () => {
   }
 
   if (isLoading) {
-    return <ActivityIndicator color="red" />
+    return <ActivityIndicator color={colors.black} size="large" />
   }
 
   return (
@@ -50,7 +50,14 @@ const FoodDetailsScreen = () => {
 
         <View>
           <View>
-            <Image source={{uri: data?.image}} style={styles.image} />
+            <Image
+              source={{
+                uri:
+                  data?.image ??
+                  'https://cdn.dribbble.com/users/143350/screenshots/14052412/media/27ab3785352e64f357bc1608bae74361.png?compress=1&resize=400x300',
+              }}
+              style={styles.image}
+            />
             <View
               style={[styles.slideIndicator, {transform: [{translateX: -50}]}]}>
               <View style={styles.next} />
@@ -106,6 +113,9 @@ const FoodDetailsScreen = () => {
                 onPress={() => setToggleModal(true)}>
                 <Text style={styles.btnText}>Delete</Text>
               </Pressable>
+              {/*
+                if this button is clicked, navigate to add food with its input field already prefilled with existing data
+              */}
               <Pressable
                 android_ripple={{
                   color: colors.neutral,
@@ -250,16 +260,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue,
     marginLeft: 15,
   },
-  // addFoodBtn: {
-  //   position: 'absolute',
-  //   right: 10,
-  //   bottom: 50,
-  //   backgroundColor: colors.main,
-  //   width: 50,
-  //   height: 50,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   borderRadius: 50 / 2,
-  // },
 })
 export default FoodDetailsScreen

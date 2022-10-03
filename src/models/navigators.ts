@@ -3,7 +3,7 @@ import {NavigatorScreenParams} from '@react-navigation/native'
 import {NativeStackNavigationProp} from '@react-navigation/native-stack'
 
 export type RootStackParamList = {
-  Tab: undefined
+  Home: undefined
   Register: undefined
   Login: undefined
   ForgetPassword: undefined
@@ -13,6 +13,7 @@ export type RootStackParamList = {
   }
   AddMeal: undefined
   FilterByType: undefined
+  Setting: undefined
 }
 
 export type TabStackParamList = {

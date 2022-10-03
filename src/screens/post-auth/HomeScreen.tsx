@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {StatusBar, StyleSheet, Text, View} from 'react-native'
-import {SafeAreaView} from 'react-native-safe-area-context'
+import BottomTab from '../../components/BottomTab'
 import Foods from '../../components/Foods'
 import Form from '../../components/Form'
 import {colors} from '../../theme/colors'
@@ -8,7 +8,8 @@ import {fonts} from '../../theme/fonts'
 
 const HomeScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <>
+      {/* <SafeAreaView> */}
       <StatusBar backgroundColor={colors.main} />
       <View style={styles.header}>
         <View>
@@ -22,13 +23,16 @@ const HomeScreen = () => {
       </View>
 
       <Foods />
-    </SafeAreaView>
+      {/* </SafeAreaView> */}
+
+      <BottomTab />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
   },
   header: {
     padding: 20,

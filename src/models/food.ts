@@ -1,12 +1,13 @@
+import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore'
 import {ImageSourcePropType} from 'react-native'
 
 export type Food = {
-  id: string
+  id?: string
   name: string
   image: ImageSourcePropType | string
   type: 'Breakfast' | 'Lunch' | 'Dinner' | 'Light'
   tags?: string[]
-  date: Date
+  date: FirebaseFirestoreTypes.Timestamp
   description: string
   location: string // this is gotten automatically with the map or allow user to input the location themselves
   restaurant: string
