@@ -21,6 +21,8 @@ interface InputType extends TextInputProps {
   name: string
   control: Control<FieldValues, any>
   error?: FieldError
+  setTogglePassword?: React.Dispatch<React.SetStateAction<boolean>>
+  togglePassword?: boolean
 }
 
 const Input = ({
@@ -29,17 +31,18 @@ const Input = ({
   type,
   name,
   control,
+  setTogglePassword,
+  togglePassword,
   ...props
 }: InputType) => {
   const [focusColor, setFocusColor] = React.useState(false)
-  const [togglePassword, setTogglePassword] = React.useState(false)
   const {
     field: {value, onChange},
     fieldState: {error},
   } = useController({
     name,
     control,
-    defaultValue: '',
+    // defaultValue: '',
   })
 
   return (
@@ -66,7 +69,7 @@ const Input = ({
           onFocus={() => setFocusColor(true)}
           //TODO: show active class if value is not empty
           onBlur={() => setFocusColor(false)}
-          // secureTextEntry={togglePassword ? false : true}
+          // secureTextEntry={togglePassword ? true : false}
           {...props}
         />
         {/* {error && (
@@ -75,7 +78,10 @@ const Input = ({
         {type === 'password' && (
           <Pressable
             style={styles.toggleBtn}
-            onPress={() => setTogglePassword(!togglePassword)}>
+            onPress={() => {
+              if (!setTogglePassword) return
+              setTogglePassword(!togglePassword)
+            }}>
             {togglePassword ? <EyeOff /> : <Eye />}
           </Pressable>
         )}

@@ -1,67 +1,58 @@
 import * as React from 'react'
 import {Pressable, StyleSheet, Text, View} from 'react-native'
 import BottomTab from '../../components/BottomTab'
+import ConfirmationModal from '../../components/ConfirmationModal'
+import Dialog from '../../components/Dialog'
+import {useDeleteAccount} from '../../hooks/useDeleteAccount'
+import {useSignOut} from '../../hooks/useSignOut'
 import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
 import {globalStyle} from '../../theme/globalStyle'
 
 const SettingsScreen = () => {
-  // const {navigation} = useNavigation();
-  // const [toggleModal, setToggleModal] = React.useState(false)
+  const [toggleModal, setToggleModal] = React.useState(false)
+  const {signout} = useSignOut()
+  const {deleteAccount, loading} = useDeleteAccount()
 
   return (
     <>
       <View style={globalStyle.container}>
         <View style={styles.header}>
-          <Text style={styles.headingOne}>Your Profile</Text>
+          <Text style={styles.headingOne}>Settings</Text>
         </View>
 
-        <View>
-          <View style={styles.profile}>
-            <Text style={styles.profileTitle}>Name</Text>
-            <Text style={styles.profileText}>Williams Samuel</Text>
-          </View>
+        <Text>Dark Mode</Text>
 
-          <View style={styles.profile}>
-            <Text style={styles.profileTitle}>created on</Text>
-            <Text style={styles.profileText}>
-              Friday, 15 June 2023 at 1:22pm
-            </Text>
-          </View>
-        </View>
+        <Pressable>
+          <Text>Reset Password</Text>
+        </Pressable>
 
-        <View style={styles.settingContainer}>
-          <Text style={styles.settingTitle}>Settings</Text>
+        <Pressable style={styles.logoutBtn} onPress={signout}>
+          <Text style={styles.logoutBtnText}>Logout</Text>
+        </Pressable>
 
-          <View style={styles.settings}>
-            <Text>Dark Mode</Text>
-
-            <Pressable>
-              <Text>Reset Password</Text>
-            </Pressable>
-
-            {/* <Pressable
-              style={styles.deleteBtn}
-              onPress={() => setToggleModal(true)}>
-              <Text style={styles.deleteBtnText}>Delete My Account</Text>
-            </Pressable> */}
-          </View>
-        </View>
+        <Pressable
+          style={styles.deleteBtn}
+          onPress={() => setToggleModal(true)}>
+          <Text style={styles.deleteBtnText}>Delete My Account</Text>
+        </Pressable>
       </View>
 
       <BottomTab />
 
-      {/* <Dialog
+      <Dialog
         toggleModal={toggleModal}
         setToggleModal={setToggleModal}
         children={
           <ConfirmationModal
+            loading={loading}
             title="Are you sure you want to delete your account? 😮"
             subtitle="Be Careful! if you delete your account, you won't be able to recover you food journal again"
             setToggleModal={setToggleModal}
+            onPress={deleteAccount}
           />
         }
-      /> */}
+      />
     </>
   )
 }
@@ -76,34 +67,6 @@ const styles = StyleSheet.create({
     color: colors.main,
     lineHeight: 30,
   },
-  profile: {
-    marginTop: 32,
-  },
-  profileTitle: {
-    textTransform: 'uppercase',
-    fontFamily: fonts.regular,
-    fontSize: 16,
-    color: colors.text,
-  },
-  profileText: {
-    fontFamily: fonts.medium,
-    fontSize: 20,
-    color: colors.main,
-  },
-  settingContainer: {
-    marginTop: 50,
-  },
-  settingTitle: {
-    textTransform: 'uppercase',
-    fontFamily: fonts.medium,
-    fontSize: 16,
-    borderBottomColor: '#979797',
-    borderBottomWidth: 1,
-    color: colors.text,
-  },
-  settings: {
-    marginTop: 10,
-  },
   deleteBtn: {
     backgroundColor: colors.secondary,
     height: 50,
@@ -117,6 +80,15 @@ const styles = StyleSheet.create({
     fontFamily: fonts.medium,
     fontSize: 18,
     color: colors.neutral,
+  },
+  logoutBtn: {
+    marginTop: 15,
+  },
+  logoutBtnText: {
+    textTransform: 'uppercase',
+    fontFamily: fonts.medium,
+    fontSize: 18,
+    lineHeight: 22,
   },
 })
 export default SettingsScreen

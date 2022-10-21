@@ -8,26 +8,6 @@ export const foodsApi = createApi({
   reducerPath: 'foodsApi',
   baseQuery: fakeBaseQuery(),
   endpoints: builder => ({
-    // // conver to onSnapshot
-    // getAllMeals: builder.query<PostsResponse, void>({
-    //   queryFn() {
-    //     try {
-    //       let foods: PostsResponse = []
-    //       firestore()
-    //         .collection('foods')
-    //         .onSnapshot(documentSnapshot => {
-    //           let meals: PostsResponse = []
-    //           documentSnapshot?.forEach(food =>
-    //             meals.push({...(food.data() as Food), id: food.id}),
-    //           )
-    //           console.log('User data: ', meals)
-    //         })
-    //       return {data: foods}
-    //     } catch (error) {
-    //       return {error}
-    //     }
-    //   },
-    // }),
     getOneMeal: builder.query<Food, void>({
       async queryFn(arg: string) {
         try {
@@ -41,12 +21,11 @@ export const foodsApi = createApi({
       },
     }),
     removeMeal: builder.mutation({
-      async queryFn(arg: string) {
+      async queryFn(id: string) {
         try {
-          // let food: Food = []
           const userFood = await firestore()
             .collection('meals')
-            .doc(arg)
+            .doc(id)
             .delete()
           return {data: userFood}
         } catch (error) {
@@ -55,13 +34,13 @@ export const foodsApi = createApi({
       },
     }),
     updateMeal: builder.mutation({
-      async queryFn(arg: string, data: string) {
+      async queryFn({id, data}: {id: string; data: Food}) {
         try {
           // let food: Food = []
           const userFood = await firestore()
             .collection('meals')
-            .doc(arg)
-            .update({data})
+            .doc(id)
+            .update(data)
           return {data: userFood}
         } catch (error) {
           return {error}
@@ -79,6 +58,25 @@ export const foodsApi = createApi({
         }
       },
     }),
+    getMealCategory: builder.query({
+      async queryFn(arg: any) {
+        try {
+          const userFood = await firestore()
+            .collection('meals')
+            .where('type', '==', arg)
+            .get()
+          const doc = await userFood.docs
+
+          const data = doc.map(d => {
+            return {...d.data(), id: d.id}
+          })
+
+          return {data}
+        } catch (error) {
+          return {error}
+        }
+      },
+    }),
   }),
 })
 
@@ -87,4 +85,5 @@ export const {
   useGetOneMealQuery,
   useRemoveMealMutation,
   useUpdateMealMutation,
+  useGetMealCategoryQuery,
 } = foodsApi

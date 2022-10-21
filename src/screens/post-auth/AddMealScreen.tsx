@@ -1,7 +1,8 @@
 import {yupResolver} from '@hookform/resolvers/yup'
-import {useNavigation} from '@react-navigation/native'
+import type {RouteProp} from '@react-navigation/native'
+import {useNavigation, useRoute} from '@react-navigation/native'
 import * as React from 'react'
-import {useForm} from 'react-hook-form'
+import {FieldValues, useForm} from 'react-hook-form'
 import {
   ActivityIndicator,
   Image,
@@ -18,15 +19,16 @@ import Upload from '../../assets/icons/Upload'
 import Dialog from '../../components/Dialog'
 import ImagePickerModal from '../../components/ImagePickerModal'
 import Input from '../../components/Input'
-import {FoodNavigationProps} from '../../models/navigators'
+import {FoodNavigationProps, RootStackParamList} from '../../models/navigators'
 import {PickerResponseType} from '../../models/screenTypes'
-import {useAddMealMutation} from '../../store/apiSlice'
+import {useAddMealMutation, useUpdateMealMutation} from '../../store/apiSlice'
 import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
 import {globalStyle} from '../../theme/globalStyle'
 
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
+// import uuid from 'react-native-uuid'
 import BottomTab from '../../components/BottomTab'
 import {Food} from '../../models/food'
 
@@ -54,16 +56,16 @@ const AddMealScreen = () => {
   const [loading, setLoading] = React.useState(false)
   const [pickerResponse, setPickerResponse] =
     React.useState<PickerResponseType | null>(null)
-  const [addMeal, {isLoading, status, isError, data}] = useAddMealMutation()
+  const route = useRoute<RouteProp<RootStackParamList, 'AddMeal'>>()
+  const meal = route?.params?.meal
+  const [addMeal, {isLoading, status}] = useAddMealMutation()
+  const [updateMeal, {isLoading: updateMeaLoading, status: updateMealStatus}] =
+    useUpdateMealMutation()
 
-  const {control, handleSubmit, reset} = useForm({
+  const {control, handleSubmit, reset, setValue} = useForm<FieldValues>({
     resolver: yupResolver(schema),
+    reValidateMode: 'onSubmit',
   })
-
-  // console.log()
-
-  console.table(status, isError, data)
-  console.log(typeof status)
 
   /*
     steps to upload image
@@ -72,7 +74,7 @@ const AddMealScreen = () => {
     - then save the data into firebase
   */
 
-  const onAddFood = async (data: any) => {
+  const onAddFood = async (data: FieldValues) => {
     const {description, type, name, location, restaurant} = data
     if (!pickerResponse) {
       ToastAndroid.show(
@@ -108,9 +110,6 @@ const AddMealScreen = () => {
       if (uploadFile) {
         await addMeal(meal)
       }
-      // if (isSuccess) {
-      //
-      // }
       setLoading(false)
     } catch (error) {
       console.error(error)
@@ -122,9 +121,63 @@ const AddMealScreen = () => {
       ToastAndroid.show('Meal added successfully! 🎉🚀', ToastAndroid.SHORT)
       reset()
       setPickerResponse(null)
-      navigation.push('Tab')
+      navigation.push('Home')
     }
   }, [status])
+
+  const onUpdateMeal = async (data: FieldValues) => {
+    const {description, type, name, location, restaurant} = data
+    // @ts-ignore
+    const uri: string = meal?.image
+    const filename = uri!.substring(
+      uri!.lastIndexOf('image'),
+      uri!.lastIndexOf('?'),
+    )
+    const uploadUri =
+      Platform.OS === 'ios'
+        ? pickerResponse?.uri.replace('file://', '')
+        : pickerResponse?.uri
+    setLoading(true)
+    try {
+      const task = await storage().ref(filename)
+      const uploadFile = await task.putFile(uploadUri! ?? meal?.image)
+      const downloadUrl = await task.getDownloadURL()
+      const food: Food = {
+        description,
+        image: downloadUrl ?? uploadFile,
+        restaurant,
+        location,
+        name,
+        type,
+        date: firestore.Timestamp.now(),
+      }
+      if (uploadFile) {
+        await updateMeal({id: meal?.id, data: food})
+      }
+      setLoading(false)
+    } catch (error) {
+      console.error('error', error)
+    }
+  }
+
+  React.useEffect(() => {
+    if (updateMealStatus === 'fulfilled') {
+      ToastAndroid.show('Meal updated successfully! 🚀', ToastAndroid.SHORT)
+      // reset()
+      setPickerResponse(null)
+      navigation.push('Home')
+    }
+  }, [updateMealStatus])
+
+  React.useEffect(() => {
+    if (meal) {
+      setValue('name', meal?.name)
+      setValue('type', meal?.type)
+      setValue('location', meal?.location)
+      setValue('restaurant', meal?.restaurant)
+      setValue('description', meal?.description)
+    }
+  }, [])
 
   return (
     <>
@@ -141,14 +194,14 @@ const AddMealScreen = () => {
               styles.uploadContainer,
             ]}
             onPress={() => setToggleModal(true)}>
-            {pickerResponse ? (
+            {pickerResponse || meal?.image ? (
               <Image
                 style={{
                   width: '100%',
                   height: 200,
                   resizeMode: 'contain',
                 }}
-                source={{uri: pickerResponse?.uri}}
+                source={{uri: pickerResponse?.uri ?? meal?.image}}
               />
             ) : (
               <>
@@ -164,7 +217,9 @@ const AddMealScreen = () => {
           <Pressable
             style={styles.uploadBtn}
             onPress={() => setToggleModal(true)}>
-            <Text style={styles.uploadBtnText}>Select Image</Text>
+            <Text style={styles.uploadBtnText}>
+              {meal?.image ? 'Change Image' : 'Select Image'}
+            </Text>
           </Pressable>
         </View>
 
@@ -175,7 +230,6 @@ const AddMealScreen = () => {
             name="name"
             control={control}
           />
-          {/* TODO: change to select */}
           <Input
             title="Type"
             placeholder="Breakfast, Lunch, Dinner etc"
@@ -184,7 +238,7 @@ const AddMealScreen = () => {
           />
           <View>
             <Input title="Location" name="location" control={control} />
-            <Text>Auto choose my location</Text>
+            {/* <Text>Auto choose my location</Text> */}
           </View>
           <Input title="Restaurant" name="restaurant" control={control} />
 
@@ -197,18 +251,33 @@ const AddMealScreen = () => {
           />
           {/* <TextInput style={[styles.input, styles.textArea]} placeholder="" /> */}
 
-          <Pressable
-            onPress={handleSubmit(onAddFood)}
-            android_ripple={{
-              color: colors.neutral,
-            }}
-            style={styles.submitBtn}>
-            {isLoading || loading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.submitBtnText}>Add food</Text>
-            )}
-          </Pressable>
+          {meal ? (
+            <Pressable
+              onPress={handleSubmit(onUpdateMeal)}
+              android_ripple={{
+                color: colors.neutral,
+              }}
+              style={styles.submitBtn}>
+              {isLoading || loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.submitBtnText}>Update meal</Text>
+              )}
+            </Pressable>
+          ) : (
+            <Pressable
+              onPress={handleSubmit(onAddFood)}
+              android_ripple={{
+                color: colors.neutral,
+              }}
+              style={styles.submitBtn}>
+              {updateMeaLoading || loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.submitBtnText}>Add meal</Text>
+              )}
+            </Pressable>
+          )}
         </View>
       </KeyboardAwareScrollView>
 

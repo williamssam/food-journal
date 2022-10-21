@@ -1,18 +1,21 @@
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs'
 import {NavigatorScreenParams} from '@react-navigation/native'
 import {NativeStackNavigationProp} from '@react-navigation/native-stack'
+import {Food} from './food'
 
 export type RootStackParamList = {
   Home: undefined
   Register: undefined
   Login: undefined
-  ForgetPassword: undefined
-  ResetPassword: undefined
   Details: {
     mealId: string
   }
-  AddMeal: undefined
-  FilterByType: undefined
+  AddMeal: {
+    meal: Food | undefined
+  }
+  FilterByType: {
+    mealType: string | undefined
+  }
   Setting: undefined
 }
 

@@ -5,7 +5,7 @@ import {fonts} from './fonts'
 export const globalStyle = StyleSheet.create({
   container: {
     padding: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#fafafa',
     flex: 1,
   },
   btn: {
@@ -19,5 +19,15 @@ export const globalStyle = StyleSheet.create({
     fontFamily: fonts.medium,
     fontSize: 18,
     color: colors.neutral,
+  },
+  errorText: {
+    fontFamily: fonts.regular,
+    fontSize: 13,
+    color: colors.red,
+    marginTop: 10,
+    textAlign: 'center',
+    paddingVertical: 3,
+    paddingHorizontal: 2,
+    backgroundColor: 'rgb(254,226,226)',
   },
 })

@@ -1,19 +1,32 @@
 import * as React from 'react'
-import {StatusBar, StyleSheet, Text, View} from 'react-native'
+import {
+  ActivityIndicator,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import BottomTab from '../../components/BottomTab'
 import Foods from '../../components/Foods'
 import Form from '../../components/Form'
+import {useAuthStateChange} from '../../hooks/useAuthStateChange'
+import useGetAllMeals from '../../hooks/useGetAllMeals'
 import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
 
 const HomeScreen = () => {
+  const {loading, meals} = useGetAllMeals()
+  const {user} = useAuthStateChange()
+
   return (
     <>
       {/* <SafeAreaView> */}
       <StatusBar backgroundColor={colors.main} />
       <View style={styles.header}>
         <View>
-          <Text style={styles.headingOne}>Good Morning Williams!</Text>
+          <Text style={styles.headingOne}>
+            Good Morning {user?.displayName}!
+          </Text>
           <Text style={styles.headingTwo}>
             What and where are we eating today? 😋
           </Text>
@@ -22,10 +35,14 @@ const HomeScreen = () => {
         <Form />
       </View>
 
-      <Foods />
-      {/* </SafeAreaView> */}
+      {loading ? (
+        <ActivityIndicator color={colors.main} />
+      ) : (
+        <Foods meals={meals} />
+      )}
 
       <BottomTab />
+      {/* </SafeAreaView> */}
     </>
   )
 }

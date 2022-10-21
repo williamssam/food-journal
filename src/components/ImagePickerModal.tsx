@@ -24,7 +24,6 @@ const ImagePickerModal = ({
       mediaType: 'photo',
     })
       .then(resp => {
-        console.log('resp', resp)
         setToggleModal(false)
         setPickerResponse({
           uri: resp.path,
@@ -35,7 +34,7 @@ const ImagePickerModal = ({
       })
       .catch(err => {
         setToggleModal(false)
-        console.log('User canceled', err)
+        console.error('User canceled', err)
       })
   }
 
@@ -55,7 +54,6 @@ const ImagePickerModal = ({
       })
       .catch(err => {
         setToggleModal(false)
-        console.log('User canceled', err)
       })
   }
 

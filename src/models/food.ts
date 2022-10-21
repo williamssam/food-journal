@@ -9,14 +9,8 @@ export type Food = {
   tags?: string[]
   date: FirebaseFirestoreTypes.Timestamp
   description: string
-  location: string // this is gotten automatically with the map or allow user to input the location themselves
+  location: string
   restaurant: string
-}
-
-type Images = {
-  first: string
-  second: string
-  last: string
 }
 
 export type FoodList = {

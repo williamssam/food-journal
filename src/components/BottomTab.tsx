@@ -1,7 +1,9 @@
 import {useNavigation, useRoute} from '@react-navigation/native'
 import * as React from 'react'
 import {Pressable, StyleSheet, Text, View} from 'react-native'
+import AddImage from '../assets/icons/AddImage'
 import Home from '../assets/icons/Home'
+import Setting from '../assets/icons/Setting'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
@@ -51,7 +53,13 @@ const BottomTab = () => {
             },
           ]}
           key={id}>
-          <Home fill={active === link ? colors.main : colors.neutral} />
+          {name === 'Home' ? (
+            <Home fill={active === link ? colors.main : colors.neutral} />
+          ) : name === 'Settings' ? (
+            <Setting fill={active === link ? colors.main : colors.neutral} />
+          ) : (
+            <AddImage fill={active === link ? colors.main : colors.neutral} />
+          )}
           <Text
             style={[
               styles.bottomTabText,

@@ -1,3 +1,5 @@
+import storage from '@react-native-firebase/storage'
+import type {RouteProp} from '@react-navigation/native'
 import {useNavigation, useRoute} from '@react-navigation/native'
 import * as React from 'react'
 import {
@@ -13,25 +15,38 @@ import ArrowLeft from '../../assets/icons/ArrowLeft'
 import ConfirmationModal from '../../components/ConfirmationModal'
 import Dialog from '../../components/Dialog'
 import OtherDetails from '../../components/OtherDetails'
-import {FoodNavigationProps} from '../../models/navigators'
+import {FoodNavigationProps, RootStackParamList} from '../../models/navigators'
 import {useGetOneMealQuery, useRemoveMealMutation} from '../../store/apiSlice'
 import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
 
 const FoodDetailsScreen = () => {
-  const route = useRoute()
+  const route = useRoute<RouteProp<RootStackParamList, 'Details'>>()
   const id = route?.params?.mealId
   const navigation = useNavigation<FoodNavigationProps>()
   const [toggleModal, setToggleModal] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
   const {isLoading, data} = useGetOneMealQuery(id)
-  const [deleteMeal, {isLoading: loading, isSuccess}] = useRemoveMealMutation()
-
-  console.log('one meal', data)
+  const [deleteMeal, {isLoading: isRemoveLoading}] = useRemoveMealMutation()
 
   const deleteItem = async () => {
-    await deleteMeal(id)
-    if (isSuccess) {
-      navigation.push('Tab')
+    // @ts-ignore
+    const uri: string = data?.image
+    // cut filename out of the url returned by firebase
+    const fileName = uri!.substring(
+      uri!.lastIndexOf('image'),
+      uri!.lastIndexOf('?'),
+    )
+    setLoading(true)
+    try {
+      await storage().ref(fileName).delete()
+      await deleteMeal(id)
+
+      console.log('image delete successfully')
+      setLoading(false)
+      navigation.push('Home')
+    } catch (error) {
+      console.error('error', error)
     }
   }
 
@@ -85,10 +100,14 @@ const FoodDetailsScreen = () => {
               <View style={styles.tags}>
                 <Pressable
                   style={({pressed}) => [{opacity: pressed ? 0.9 : 1}]}
-                  onPress={() => navigation.navigate('FilterByType')}>
+                  onPress={() =>
+                    navigation.navigate('FilterByType', {
+                      mealType: data?.type,
+                    })
+                  }>
                   <Text style={styles.foodType}>{data?.type}</Text>
                 </Pressable>
-                {data?.tags?.length > 0 && (
+                {!data?.tags?.length && (
                   <View style={styles.tagContainer}>
                     {data?.tags?.map(tag => (
                       <Text style={styles.tag} key={tag}>
@@ -121,7 +140,11 @@ const FoodDetailsScreen = () => {
                   color: colors.neutral,
                 }}
                 style={[styles.btn, styles.editBtn]}
-                onPress={() => navigation.navigate('AddMeal')}>
+                onPress={() =>
+                  navigation.navigate('AddMeal', {
+                    meal: data,
+                  })
+                }>
                 <Text style={styles.btnText}>Update</Text>
               </Pressable>
             </View>
@@ -140,7 +163,7 @@ const FoodDetailsScreen = () => {
           <ConfirmationModal
             title="Are you sure you want to delete this food from the list? 😒"
             setToggleModal={setToggleModal}
-            loading={loading}
+            loading={loading || isRemoveLoading}
             onPress={deleteItem}
           />
         }

@@ -1,25 +1,14 @@
 import {useNavigation} from '@react-navigation/native'
 import {format} from 'date-fns'
 import * as React from 'react'
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-import useGetAllMeals from '../hooks/useGetAllMeals'
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native'
 import {FoodNavigationProps} from '../models/navigators'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
-const Foods = () => {
+// TODO: solve this type issue
+const Foods = ({meals}: any) => {
   const navigation = useNavigation<FoodNavigationProps>()
-  const {loading, meals} = useGetAllMeals()
-  console.log('data', meals)
-
   // TODO: solve this type issue
   const renderItem = ({item}: any) => (
     <Pressable
@@ -46,10 +35,6 @@ const Foods = () => {
     </Pressable>
   )
 
-  if (loading) {
-    return <ActivityIndicator />
-  }
-
   return (
     <>
       <FlatList
@@ -57,6 +42,7 @@ const Foods = () => {
         keyExtractor={item => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.foods}
+        maxToRenderPerBatch={20}
         showsVerticalScrollIndicator={false}
       />
     </>

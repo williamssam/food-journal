@@ -1,21 +1,46 @@
 /* eslint-disable react-native/no-inline-styles */
+import {yupResolver} from '@hookform/resolvers/yup'
 import {Link} from '@react-navigation/native'
 import * as React from 'react'
-import {useForm} from 'react-hook-form'
+import {FieldValues, useForm} from 'react-hook-form'
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Pressable,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
+import * as yup from 'yup'
 import Input from '../../components/Input'
+import {useSignInWithEmail} from '../../hooks/useSignInWithEmail'
 import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
 import {globalStyle} from '../../theme/globalStyle'
 
+const loginSchema = yup
+  .object({
+    email_address: yup
+      .string()
+      .email('Email address is not valid')
+      .required('Email address is required'),
+    password: yup
+      .string()
+      .min(8, 'Password must not be less than 8 characters')
+      .required('Password is required'),
+  })
+  .required()
+
 const LoginScreen = () => {
-  const {register, handleSubmit, control} = useForm()
+  const [togglePassword, setTogglePassword] = React.useState(false)
+  const {handleSubmit, control} = useForm<FieldValues>({
+    resolver: yupResolver(loginSchema),
+  })
+  const {error, isLoading, login} = useSignInWithEmail()
+
+  const onLogin = (data: FieldValues) => {
+    login({email: data.email_address, password: data.password})
+  }
 
   return (
     // <KeyboardAvoidingView
@@ -51,6 +76,7 @@ const LoginScreen = () => {
           autoCapitalize="none"
           name="email_address"
           control={control}
+          autoComplete="email"
         />
         <Input
           title="Password"
@@ -60,22 +86,23 @@ const LoginScreen = () => {
           textContentType="password"
           name="password"
           control={control}
+          secureTextEntry={togglePassword ? false : true}
+          togglePassword={togglePassword}
+          setTogglePassword={setTogglePassword}
         />
-        <Link
-          style={[
-            styles.loginLink,
-            {textAlign: 'right', paddingTop: 8, fontFamily: fonts.regular},
-          ]}
-          to={{screen: 'ForgetPassword'}}>
-          Forgot Password?
-        </Link>
         <Pressable
+          disabled={isLoading}
           android_ripple={{
             color: colors.neutral,
           }}
-          style={globalStyle.btn}>
-          <Text style={globalStyle.btnText}>Login</Text>
+          style={globalStyle.btn}
+          onPress={handleSubmit(onLogin)}>
+          <Text style={globalStyle.btnText}>
+            {isLoading ? <ActivityIndicator color="#fff" /> : 'Login'}
+          </Text>
         </Pressable>
+        {error && <Text style={globalStyle.errorText}>{error}</Text>}
+
         <Text style={styles.footerText}>
           Don't have an account?{' '}
           <Link to={{screen: 'Register'}} style={styles.loginLink}>
@@ -119,7 +146,6 @@ const styles = StyleSheet.create({
   loginLink: {
     fontFamily: fonts.medium,
     color: colors.blue,
-    textDecorationLine: 'underline',
   },
   googleSignupBtn: {
     backgroundColor: colors.blue,

@@ -1,18 +1,29 @@
-import {useNavigation} from '@react-navigation/native'
+import type {RouteProp} from '@react-navigation/native'
+import {useNavigation, useRoute} from '@react-navigation/native'
 import * as React from 'react'
-import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import ArrowLeft from '../../assets/icons/ArrowLeft'
 import Foods from '../../components/Foods'
+import {RootStackParamList} from '../../models/navigators'
+import {useGetMealCategoryQuery} from '../../store/apiSlice'
 import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
 
 const FilterByTypeScreen = () => {
   const navigation = useNavigation()
+  const route = useRoute<RouteProp<RootStackParamList, 'FilterByType'>>()
+  const type = route?.params?.mealType
+
+  const {isLoading, data} = useGetMealCategoryQuery(type)
 
   return (
-    <ScrollView
-      style={styles.filterByTypeContainer}
-      showsVerticalScrollIndicator={false}>
+    <View style={styles.filterByTypeContainer}>
       <View style={styles.header}>
         <Pressable onPress={() => navigation.goBack()}>
           <ArrowLeft />
@@ -23,10 +34,14 @@ const FilterByTypeScreen = () => {
         </View>
       </View>
 
-      <View>
-        <Foods />
+      <View style={{paddingBottom: 100}}>
+        {isLoading ? (
+          <ActivityIndicator color={colors.main} />
+        ) : (
+          <Foods meals={data} />
+        )}
       </View>
-    </ScrollView>
+    </View>
   )
 }
 
@@ -37,6 +52,9 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 15,
+    // paddingBottom: 10,
+    // borderBottomColor: '#ddd',
+    // borderBottomWidth: 1,
   },
   headingOne: {
     fontFamily: fonts.medium,
