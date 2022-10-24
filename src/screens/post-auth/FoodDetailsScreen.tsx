@@ -42,7 +42,6 @@ const FoodDetailsScreen = () => {
       await storage().ref(fileName).delete()
       await deleteMeal(id)
 
-      console.log('image delete successfully')
       setLoading(false)
       navigation.push('Home')
     } catch (error) {
@@ -73,50 +72,19 @@ const FoodDetailsScreen = () => {
               }}
               style={styles.image}
             />
-            <View
-              style={[styles.slideIndicator, {transform: [{translateX: -50}]}]}>
-              <View style={styles.next} />
-              <View style={styles.current} />
-              <View style={styles.previous} />
-            </View>
           </View>
-          {/* <View style={styles.otherImageContainer}>
-          <Image
-            source={require('../assets/images/food.jpg')}
-            style={styles.otherImage}
-          />
-          <Image
-            source={require('../assets/images/food.jpg')}
-            style={styles.otherImage}
-          />
-          <Image
-            source={require('../assets/images/food.jpg')}
-            style={styles.otherImage}
-          />
-        </View> */}
 
           <View style={styles.aboutFood}>
             <View>
-              <View style={styles.tags}>
-                <Pressable
-                  style={({pressed}) => [{opacity: pressed ? 0.9 : 1}]}
-                  onPress={() =>
-                    navigation.navigate('FilterByType', {
-                      mealType: data?.type,
-                    })
-                  }>
-                  <Text style={styles.foodType}>{data?.type}</Text>
-                </Pressable>
-                {!data?.tags?.length && (
-                  <View style={styles.tagContainer}>
-                    {data?.tags?.map(tag => (
-                      <Text style={styles.tag} key={tag}>
-                        #{tag}
-                      </Text>
-                    ))}
-                  </View>
-                )}
-              </View>
+              <Pressable
+                style={({pressed}) => [{opacity: pressed ? 0.9 : 1}]}
+                onPress={() =>
+                  navigation.navigate('FilterByType', {
+                    mealType: data?.type,
+                  })
+                }>
+                <Text style={styles.foodType}>{data?.type}</Text>
+              </Pressable>
               <Text style={styles.foodName}>{data?.name}</Text>
             </View>
             <Text style={styles.foodDescriptiion}>{data?.description}</Text>
@@ -150,10 +118,6 @@ const FoodDetailsScreen = () => {
             </View>
           </View>
         </View>
-
-        {/* <Pressable style={styles.addFoodBtn}>
-        <CirclePlus />
-      </Pressable> */}
       </ScrollView>
 
       <Dialog
@@ -207,57 +171,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingTop: 10,
   },
-  tagContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  tags: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  tag: {
-    fontFamily: fonts.regular,
-    fontSize: 16,
-    marginRight: 10,
-    color: colors.secondary,
-    // backgroundColor: 'rgba(0,0,0,0.5)'
-  },
   foodType: {
     fontFamily: fonts.medium,
     fontSize: 18,
     color: colors.neutral,
     backgroundColor: colors.main,
-    paddingHorizontal: 10,
-    paddingVertical: 3,
+    paddingHorizontal: 15,
+    paddingVertical: 4,
     marginRight: 10,
-  },
-  slideIndicator: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginTop: 20,
-    position: 'absolute',
-    bottom: 20,
-    left: '50%',
-  },
-  next: {
-    width: 20,
-    height: 5,
-    backgroundColor: '#000',
-    borderRadius: 20,
-  },
-  previous: {
-    width: 20,
-    height: 5,
-    backgroundColor: '#000',
-    borderRadius: 20,
-  },
-  current: {
-    width: 50,
-    height: 5,
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    marginHorizontal: 10,
+    alignSelf: 'flex-start',
   },
   btnContainer: {
     flexDirection: 'row',

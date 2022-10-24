@@ -8,7 +8,6 @@ import {
 } from 'react-native'
 import BottomTab from '../../components/BottomTab'
 import Foods from '../../components/Foods'
-import Form from '../../components/Form'
 import {useAuthStateChange} from '../../hooks/useAuthStateChange'
 import useGetAllMeals from '../../hooks/useGetAllMeals'
 import {colors} from '../../theme/colors'
@@ -20,20 +19,14 @@ const HomeScreen = () => {
 
   return (
     <>
-      {/* <SafeAreaView> */}
       <StatusBar backgroundColor={colors.main} />
       <View style={styles.header}>
-        <View>
-          <Text style={styles.headingOne}>
-            Good Morning {user?.displayName}!
-          </Text>
-          <Text style={styles.headingTwo}>
-            What and where are we eating today? 😋
-          </Text>
-        </View>
-
-        <Form />
+        <Text style={styles.headingOne}>Good Morning {user?.displayName}!</Text>
+        <Text style={styles.headingTwo}>
+          What and where are we eating today? 😋
+        </Text>
       </View>
+      <Text style={styles.title}>Food Journal</Text>
 
       {loading ? (
         <ActivityIndicator color={colors.main} />
@@ -42,7 +35,6 @@ const HomeScreen = () => {
       )}
 
       <BottomTab />
-      {/* </SafeAreaView> */}
     </>
   )
 }
@@ -52,10 +44,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   header: {
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
     justifyContent: 'center',
     backgroundColor: colors.main,
-    // height: '40%'
+  },
+  title: {
+    fontSize: 30,
+    fontFamily: fonts.bold,
+    color: colors.main,
+    paddingTop: 20,
+    textTransform: 'uppercase',
+    textAlign: 'center',
   },
   headingOne: {
     fontSize: 30,

@@ -39,7 +39,4 @@ For more information on how to run the app on a real device or an emulator after
 
 NB: Currently working on:
 
-- Logging in and signing up with google account
-- Search field
-- Filter by category
 - Fixing some ts errors

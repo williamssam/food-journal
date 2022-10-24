@@ -53,12 +53,11 @@ const LoginScreen = () => {
         </Text>
       </View>
 
-      <Pressable
+      {/* <Pressable
         android_ripple={{
           color: colors.neutral,
         }}
         style={[globalStyle.btn, styles.googleSignupBtn]}>
-        {/* <Google /> */}
         <Text style={globalStyle.btnText}>Login with Google</Text>
       </Pressable>
 
@@ -66,7 +65,7 @@ const LoginScreen = () => {
         <View style={styles.dividerLine} />
         <Text style={styles.dividerText}>OR</Text>
         <View style={styles.dividerLine} />
-      </View>
+      </View> */}
 
       <View style={styles.form}>
         <Input
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   form: {
-    marginTop: -20,
+    marginTop: 20,
   },
   footerText: {
     fontFamily: fonts.regular,

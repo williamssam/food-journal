@@ -11,6 +11,7 @@ const useGetAllMeals = () => {
   React.useEffect(() => {
     const subscriber = firestore()
       .collection('meals')
+      .orderBy('date', 'desc')
       .onSnapshot(querySnapshot => {
         const meals: PostsResponse = []
 

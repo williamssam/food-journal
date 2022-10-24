@@ -21,12 +21,6 @@ const SettingsScreen = () => {
           <Text style={styles.headingOne}>Settings</Text>
         </View>
 
-        <Text>Dark Mode</Text>
-
-        <Pressable>
-          <Text>Reset Password</Text>
-        </Pressable>
-
         <Pressable style={styles.logoutBtn} onPress={signout}>
           <Text style={styles.logoutBtnText}>Logout</Text>
         </Pressable>

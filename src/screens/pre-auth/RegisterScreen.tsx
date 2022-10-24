@@ -59,7 +59,7 @@ const RegisterScreen = () => {
         <Text style={styles.subtitle}>Please fill in the form to continue</Text>
       </View>
 
-      <Pressable
+      {/* <Pressable
         android_ripple={{
           color: colors.neutral,
         }}
@@ -71,7 +71,7 @@ const RegisterScreen = () => {
         <View style={styles.dividerLine} />
         <Text style={styles.dividerText}>OR</Text>
         <View style={styles.dividerLine} />
-      </View>
+      </View> */}
 
       <View style={styles.form}>
         <Input
@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: fonts.bold,
     fontSize: 30,
-    // lineHeight: 24,
     color: colors.main,
   },
   subtitle: {
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   form: {
-    marginTop: -20,
+    marginTop: 20,
   },
   footerText: {
     fontFamily: fonts.regular,
