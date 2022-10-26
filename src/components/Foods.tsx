@@ -35,8 +35,6 @@ const Foods = ({meals}: any) => {
     </Pressable>
   )
 
-  console.log('meals', meals)
-
   return (
     <>
       <FlatList

@@ -31,7 +31,7 @@ const BottomTab = () => {
   ]
 
   // TODO: change type
-  const handleClick = (link: any) => {
+  const handleClick = (link: never | string) => {
     setActive(route.name)
     navigation.navigate(link)
   }

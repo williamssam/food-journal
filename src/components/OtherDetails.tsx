@@ -21,10 +21,6 @@ const OtherDetails = ({data}: any) => {
         <Location />
         <Text style={styles.otherDetailText}>{data?.location}</Text>
       </View>
-      {/* <View style={styles.otherDetail}>
-        <Restaurant />
-        <Text style={styles.otherDetailText}>Breakfast</Text>
-      </View> */}
       <View style={styles.otherDetail}>
         <Restaurant />
         <Text style={styles.otherDetailText}>{data?.restaurant}</Text>

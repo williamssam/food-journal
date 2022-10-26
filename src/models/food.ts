@@ -1,11 +1,10 @@
 import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore'
-import {ImageSourcePropType} from 'react-native'
 
-export type Food = {
+export interface Food {
   id?: string
   name: string
-  image: ImageSourcePropType | string
-  type: 'Breakfast' | 'Lunch' | 'Dinner' | 'Light'
+  image: ImageSource
+  type: string
   tags?: string[]
   date: FirebaseFirestoreTypes.Timestamp
   description: string
@@ -13,7 +12,11 @@ export type Food = {
   restaurant: string
 }
 
-export type FoodList = {
+export interface FoodList {
   id?: string
   food: Food
+}
+
+interface ImageSource {
+  uri: string | ImageSource
 }

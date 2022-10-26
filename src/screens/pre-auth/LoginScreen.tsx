@@ -108,6 +108,8 @@ const LoginScreen = () => {
             Sign up
           </Link>
         </Text>
+
+        {/* <RecruiterLogin /> */}
       </View>
     </KeyboardAvoidingView>
   )

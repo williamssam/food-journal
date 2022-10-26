@@ -65,7 +65,7 @@ export const useSignUpwithEmail = () => {
         })
       }
 
-      console.log(err as Error)
+      console.error(err as Error)
     }
   }
 
