@@ -15,7 +15,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>()
 const AppNavigator = () => {
   const {user} = useAuthStateChange()
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        presentation: 'transparentModal',
+      }}>
       {!user ? (
         <>
           <Stack.Screen name="Login" component={LoginScreen} />

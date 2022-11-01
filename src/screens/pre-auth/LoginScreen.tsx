@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import * as yup from 'yup'
 import Input from '../../components/Input'
+import RecruiterLogin from '../../components/RecruiterLogin'
 import {useSignInWithEmail} from '../../hooks/useSignInWithEmail'
 import {colors} from '../../theme/colors'
 import {fonts} from '../../theme/fonts'
@@ -109,7 +110,7 @@ const LoginScreen = () => {
           </Link>
         </Text>
 
-        {/* <RecruiterLogin /> */}
+        <RecruiterLogin />
       </View>
     </KeyboardAvoidingView>
   )

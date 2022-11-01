@@ -44,6 +44,18 @@ const Foods = ({meals}: any) => {
         contentContainerStyle={styles.foods}
         maxToRenderPerBatch={20}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          <View>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: fonts.medium,
+                color: colors.text,
+              }}>
+              NO meal, pls add one
+            </Text>
+          </View>
+        }
       />
     </>
   )
