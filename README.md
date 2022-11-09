@@ -27,6 +27,8 @@ The app uses different libaries, languages, and tools to work properly. Main tec
 - **React Native**
 - **Firebase**
 - **Typescript**
+- **Redux toolkit**
+- **RTK Query**
 
 ## Installation
 
