@@ -98,7 +98,7 @@ const AddMealScreen = () => {
       // used non null assertion: just to tell ts that we know "uploadUri" can never be undefined || null
       const uploadFile = await task.putFile(uploadUri!)
       const downloadUrl = await task.getDownloadURL()
-      const meal: Food = {
+      const meal: Omit<Food, 'id'> = {
         description,
         image: downloadUrl,
         restaurant,
@@ -142,7 +142,7 @@ const AddMealScreen = () => {
       const task = await storage().ref(filename)
       const uploadFile = await task.putFile(uploadUri! ?? meal?.image)
       const downloadUrl = await task.getDownloadURL()
-      const food: Food = {
+      const food: Omit<Food, 'id'> = {
         description,
         image: downloadUrl ?? uploadFile,
         restaurant,

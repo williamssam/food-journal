@@ -52,9 +52,6 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 15,
-    // paddingBottom: 10,
-    // borderBottomColor: '#ddd',
-    // borderBottomWidth: 1,
   },
   headingOne: {
     fontFamily: fonts.medium,

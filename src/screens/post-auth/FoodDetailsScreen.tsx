@@ -30,8 +30,7 @@ const FoodDetailsScreen = () => {
   const [deleteMeal, {isLoading: isRemoveLoading}] = useRemoveMealMutation()
 
   const deleteItem = async () => {
-    // @ts-ignore
-    const uri: string = data?.image
+    const uri: string = data!.image
     // cut filename out of the url returned by firebase
     const fileName = uri!.substring(
       uri!.lastIndexOf('image'),

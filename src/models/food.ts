@@ -9,6 +9,7 @@ export interface Food {
   description: string
   location: string
   restaurant: string
+  type: string
 }
 
 export interface FoodList {

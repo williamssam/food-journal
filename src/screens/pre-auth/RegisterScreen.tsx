@@ -59,20 +59,6 @@ const RegisterScreen = () => {
         <Text style={styles.subtitle}>Please fill in the form to continue</Text>
       </View>
 
-      {/* <Pressable
-        android_ripple={{
-          color: colors.neutral,
-        }}
-        style={[globalStyle.btn, styles.googleSignupBtn]}>
-        <Text style={globalStyle.btnText}>Signup with Google</Text>
-      </Pressable>
-
-      <View style={styles.dividerContainer}>
-        <View style={styles.dividerLine} />
-        <Text style={styles.dividerText}>OR</Text>
-        <View style={styles.dividerLine} />
-      </View> */}
-
       <View style={styles.form}>
         <Input
           title="Username"

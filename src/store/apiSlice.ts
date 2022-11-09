@@ -8,10 +8,10 @@ export const foodsApi = createApi({
   reducerPath: 'foodsApi',
   baseQuery: fakeBaseQuery(),
   endpoints: builder => ({
-    getOneMeal: builder.query<Food, void>({
-      async queryFn(arg: string) {
+    getOneMeal: builder.query<Food, string>({
+      async queryFn(id: string) {
         try {
-          const userFood = await firestore().collection('meals').doc(arg).get()
+          const userFood = await firestore().collection('meals').doc(id).get()
 
           let data = {...userFood.data(), id: userFood.id}
           return {data}
@@ -34,7 +34,13 @@ export const foodsApi = createApi({
       },
     }),
     updateMeal: builder.mutation({
-      async queryFn({id, data}: {id: string; data: Food}) {
+      async queryFn({
+        id,
+        data,
+      }: {
+        id: string | undefined
+        data: Omit<Food, 'id'>
+      }) {
         try {
           // let food: Food = []
           const userFood = await firestore()
