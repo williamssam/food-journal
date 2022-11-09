@@ -36,7 +36,3 @@ Clone this repository and import into your preferred code editor.
 For more information on how to run the app on a real device or an emulator after importing it, follow this [tutorial](https://reactnative.dev/docs/environment-setup).
 
 **Any feedback is always welcome!**
-
-NB: Currently working on:
-
-- Fixing some ts errors
