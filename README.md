@@ -24,8 +24,9 @@ Remember what you've been eating in the last few days and identify healthy and u
 
 The app uses different libaries, languages, and tools to work properly. Main technologies:
 
-- **React Native** - object-oriented programming language
-- **Firebase** - Firestore, Storage and authentication from Google
+- **React Native**
+- **Firebase**
+- **Typescript**
 
 ## Installation
 
