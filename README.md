@@ -6,7 +6,7 @@
 ![](readme_imgs/Screenshot_1666393111.png)
 ![](./readme_imgs/Screenshot_1666392356.png)
 
-The _Food Journal Tracker_ app is an React native mobile application that can be used to capture photos and information about what you eat. Keeping track of the food you eat is a proven way to make better diet choices. As an added benefit, many popular mobile apps - including Instagram - work in a similar way to the food journaling app.
+The _Food Journal Tracker_ app is a React native mobile application that can be used to capture photos and information about what you eat. Keeping track of the food you eat is a proven way to make better diet choices. As an added benefit, many popular mobile apps - including Instagram - work in a similar way to the food journaling app.
 
 - The user can take a photo of whatever they are eating or drinking using their phone inbuilt camera.
 - The user can then add a description of the food to accompany the photo.
