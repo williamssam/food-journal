@@ -3,7 +3,7 @@ import {Animated, StyleSheet} from 'react-native'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
-interface WithSplashScreenProps {
+type WithSplashScreenProps = {
   isAppReady: boolean
   children: React.ReactNode
 }

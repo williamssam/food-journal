@@ -2,7 +2,7 @@ import React from 'react'
 import {Platform, StyleProp, useWindowDimensions, ViewStyle} from 'react-native'
 import Modal from 'react-native-modal'
 
-interface DialogType {
+type DialogType = {
   toggleModal: boolean
   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>
   children: React.ReactNode

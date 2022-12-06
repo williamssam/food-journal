@@ -2,7 +2,7 @@ import auth from '@react-native-firebase/auth'
 import React from 'react'
 import {ToastAndroid} from 'react-native'
 
-interface SignupProps {
+type SignupProps = {
   email: string
   password: string
 }

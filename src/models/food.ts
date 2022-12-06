@@ -1,6 +1,6 @@
 import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore'
 
-export interface Food {
+export type Food = {
   id: string
   name: string
   image: string
@@ -12,11 +12,7 @@ export interface Food {
   type: string
 }
 
-export interface FoodList {
+export type FoodList = {
   id?: string
   food: Food
-}
-
-interface ImageSource {
-  uri: string | ImageSource
 }

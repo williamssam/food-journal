@@ -7,7 +7,7 @@ import {PickerResponseType} from '../models/screenTypes'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
-interface ImagePickerType {
+type ImagePickerType = {
   setPickerResponse: React.Dispatch<
     React.SetStateAction<PickerResponseType | null>
   >

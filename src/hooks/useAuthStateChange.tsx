@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth'
 import React from 'react'
 
-interface UserInfo {
+type UserInfo = {
   displayName: string
   email: string
 }

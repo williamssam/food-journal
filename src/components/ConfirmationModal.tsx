@@ -11,7 +11,7 @@ import Trash from '../assets/icons/Trash'
 import {colors} from '../theme/colors'
 import {fonts} from '../theme/fonts'
 
-interface ConfirmationModalType {
+type ConfirmationModalType = {
   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>
   title: string
   subtitle?: string
