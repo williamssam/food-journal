@@ -16,7 +16,6 @@ You can also:
 
 - Import and save files from your phone local storage or gallery.
 - Delete and update journals.
-- Filter by category.
 
 Remember what you've been eating in the last few days and identify healthy and unhealthy eating patterns.
 
